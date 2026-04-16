@@ -104,7 +104,7 @@ export function validateSubmitPayload(
   const sexErr = validateRequired(pd.sex, "sex", "your sex");
   if (sexErr) errors.push(sexErr);
 
-  const validSexValues = ["Male", "Female", "Non-binary", "Prefer not to say"];
+  const validSexValues = ["male", "female", "non-binary", "prefer_not_to_say", "Male", "Female", "Non-binary", "Prefer not to say"];
   if (pd.sex && !validSexValues.includes(pd.sex)) {
     errors.push({ field: "sex", message: "Select a valid option for sex" });
   }
@@ -192,6 +192,10 @@ function mapSex(value: string): "male" | "female" | "non-binary" | "prefer_not_t
     "Female": "female",
     "Non-binary": "non-binary",
     "Prefer not to say": "prefer_not_to_say",
+    "male": "male",
+    "female": "female",
+    "non-binary": "non-binary",
+    "prefer_not_to_say": "prefer_not_to_say",
   };
   return map[value] ?? "prefer_not_to_say";
 }

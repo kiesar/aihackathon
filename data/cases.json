@@ -1,1 +1,418 @@
-[]
+[
+  {
+    "case_id": "DSA-2026-00001",
+    "case_type": "dsa_application",
+    "status": "escalated",
+    "applicant": {
+      "name": "Sarah Johnson",
+      "forenames": "Sarah",
+      "surname": "Johnson",
+      "reference": "CRN-98765",
+      "date_of_birth": "2002-03-15",
+      "sex": "female",
+      "address": {
+        "line1": "42 Oak Avenue",
+        "line2": "Headingley",
+        "postcode": "LS6 3AB"
+      },
+      "university": "University of Leeds",
+      "course": "BSc Psychology",
+      "notification_channel": "email",
+      "email": "sarah.johnson@student.leeds.ac.uk"
+    },
+    "assigned_to": "jsmith",
+    "created_date": "2026-03-01T09:30:00.000Z",
+    "last_updated": "2026-04-16T13:17:32.024Z",
+    "timeline": [
+      {
+        "date": "2026-03-01T09:30:00.000Z",
+        "event": "case_created",
+        "note": "Application submitted by applicant"
+      },
+      {
+        "date": "2026-04-16T13:17:32.024Z",
+        "event": "state_transition",
+        "note": "test",
+        "actor": "jsmith"
+      }
+    ],
+    "case_notes": "",
+    "application_data": {
+      "cost_items": [
+        {
+          "id": "c1",
+          "description": "Laptop with assistive software",
+          "amount": 1200,
+          "supplier": "Dell Technologies"
+        },
+        {
+          "id": "c2",
+          "description": "Specialist mentoring (12 sessions)",
+          "amount": 960,
+          "supplier": "Study Support Ltd"
+        }
+      ],
+      "total_amount": 2160,
+      "declaration_confirmed": true,
+      "submitted_at": "2026-03-01T09:30:00.000Z"
+    },
+    "evidence_requested_date": "2026-03-02T10:00:00.000Z"
+  },
+  {
+    "case_id": "DSA-2026-00002",
+    "case_type": "dsa_application",
+    "status": "under_review",
+    "applicant": {
+      "name": "James Chen",
+      "forenames": "James",
+      "surname": "Chen",
+      "reference": "",
+      "date_of_birth": "2001-07-22",
+      "sex": "male",
+      "address": {
+        "line1": "15 Maple Road",
+        "postcode": "M14 5TP"
+      },
+      "university": "University of Manchester",
+      "course": "MEng Computer Science",
+      "notification_channel": "sms",
+      "phone": "07700900123"
+    },
+    "assigned_to": "jsmith",
+    "created_date": "2026-02-15T14:00:00.000Z",
+    "last_updated": "2026-03-10T11:20:00.000Z",
+    "timeline": [
+      {
+        "date": "2026-02-15T14:00:00.000Z",
+        "event": "case_created",
+        "note": "Application submitted by applicant"
+      },
+      {
+        "date": "2026-02-20T09:00:00.000Z",
+        "event": "evidence_requested",
+        "note": "Requested diagnostic report and supplier quotes",
+        "actor": "jsmith"
+      },
+      {
+        "date": "2026-03-05T16:30:00.000Z",
+        "event": "evidence_received",
+        "note": "All evidence received from applicant"
+      },
+      {
+        "date": "2026-03-10T11:20:00.000Z",
+        "event": "state_transition",
+        "note": "Evidence complete, beginning review",
+        "actor": "jsmith"
+      }
+    ],
+    "case_notes": "Applicant has dyslexia diagnosis from 2019. Quotes look reasonable.",
+    "application_data": {
+      "cost_items": [
+        {
+          "id": "c1",
+          "description": "Text-to-speech software licence",
+          "amount": 299.99,
+          "supplier": "Texthelp"
+        },
+        {
+          "id": "c2",
+          "description": "Ergonomic keyboard and mouse",
+          "amount": 185,
+          "supplier": "Posturite"
+        },
+        {
+          "id": "c3",
+          "description": "Study skills tutor (20 sessions)",
+          "amount": 1600,
+          "supplier": "Academic Support Services"
+        }
+      ],
+      "total_amount": 2084.99,
+      "declaration_confirmed": true,
+      "submitted_at": "2026-02-15T14:00:00.000Z"
+    }
+  },
+  {
+    "case_id": "DSA-2026-00003",
+    "case_type": "dsa_application",
+    "status": "awaiting_evidence",
+    "applicant": {
+      "name": "Priya Patel",
+      "forenames": "Priya",
+      "surname": "Patel",
+      "reference": "CRN-11223",
+      "date_of_birth": "2003-11-08",
+      "sex": "female",
+      "address": {
+        "line1": "7 Victoria Terrace",
+        "line2": "Clifton",
+        "postcode": "BS8 1HH"
+      },
+      "university": "University of Bristol",
+      "course": "BA English Literature",
+      "notification_channel": "email",
+      "email": "priya.patel@bristol.ac.uk"
+    },
+    "assigned_to": "mbrown",
+    "created_date": "2026-01-10T11:00:00.000Z",
+    "last_updated": "2026-01-12T09:00:00.000Z",
+    "timeline": [
+      {
+        "date": "2026-01-10T11:00:00.000Z",
+        "event": "case_created",
+        "note": "Application submitted by applicant"
+      },
+      {
+        "date": "2026-01-12T09:00:00.000Z",
+        "event": "evidence_requested",
+        "note": "Requested proof of disability and cost quotes",
+        "actor": "mbrown"
+      }
+    ],
+    "case_notes": "",
+    "application_data": {
+      "cost_items": [
+        {
+          "id": "c1",
+          "description": "Recording device for lectures",
+          "amount": 150,
+          "supplier": "Sony UK"
+        },
+        {
+          "id": "c2",
+          "description": "Note-taking support (full year)",
+          "amount": 3200,
+          "supplier": "UniAssist"
+        }
+      ],
+      "total_amount": 3350,
+      "declaration_confirmed": true,
+      "submitted_at": "2026-01-10T11:00:00.000Z"
+    },
+    "evidence_requested_date": "2026-01-12T09:00:00.000Z"
+  },
+  {
+    "case_id": "DSA-2026-00004",
+    "case_type": "dsa_application",
+    "status": "approved",
+    "applicant": {
+      "name": "Tom Williams",
+      "forenames": "Tom",
+      "surname": "Williams",
+      "reference": "CRN-44556",
+      "date_of_birth": "2000-05-30",
+      "sex": "male",
+      "address": {
+        "line1": "23 King Street",
+        "postcode": "EX4 3PQ"
+      },
+      "university": "University of Exeter",
+      "course": "BSc Mathematics",
+      "notification_channel": "email",
+      "email": "tw456@exeter.ac.uk"
+    },
+    "assigned_to": "jsmith",
+    "created_date": "2026-01-05T10:00:00.000Z",
+    "last_updated": "2026-02-28T15:45:00.000Z",
+    "timeline": [
+      {
+        "date": "2026-01-05T10:00:00.000Z",
+        "event": "case_created",
+        "note": "Application submitted by applicant"
+      },
+      {
+        "date": "2026-01-08T09:00:00.000Z",
+        "event": "evidence_requested",
+        "note": "Requested diagnostic report",
+        "actor": "jsmith"
+      },
+      {
+        "date": "2026-01-20T14:00:00.000Z",
+        "event": "evidence_received",
+        "note": "Diagnostic report received"
+      },
+      {
+        "date": "2026-02-01T10:30:00.000Z",
+        "event": "state_transition",
+        "note": "Beginning review",
+        "actor": "jsmith"
+      },
+      {
+        "date": "2026-02-28T15:45:00.000Z",
+        "event": "decision_made",
+        "note": "Application approved — all criteria met",
+        "actor": "jsmith"
+      }
+    ],
+    "case_notes": "Clear diagnosis, reasonable costs. Approved.",
+    "decision_reason": "Applicant meets all DSA eligibility criteria. Costs are within standard allowance thresholds.",
+    "application_data": {
+      "cost_items": [
+        {
+          "id": "c1",
+          "description": "Specialist calculator software",
+          "amount": 89.99,
+          "supplier": "Casio Education"
+        },
+        {
+          "id": "c2",
+          "description": "Noise-cancelling headphones",
+          "amount": 250,
+          "supplier": "Bose"
+        }
+      ],
+      "total_amount": 339.99,
+      "declaration_confirmed": true,
+      "submitted_at": "2026-01-05T10:00:00.000Z"
+    }
+  },
+  {
+    "case_id": "DSA-2026-00005",
+    "case_type": "dsa_application",
+    "status": "awaiting_evidence",
+    "applicant": {
+      "name": "Emma Roberts",
+      "forenames": "Emma",
+      "surname": "Roberts",
+      "reference": "",
+      "date_of_birth": "2004-01-19",
+      "sex": "female",
+      "address": {
+        "line1": "88 London Road",
+        "line2": "Guildford",
+        "postcode": "GU1 2AA"
+      },
+      "university": "University of Surrey",
+      "course": "BSc Nursing",
+      "notification_channel": "sms",
+      "phone": "07700900456"
+    },
+    "assigned_to": "mbrown",
+    "created_date": "2025-12-01T08:00:00.000Z",
+    "last_updated": "2025-12-03T10:00:00.000Z",
+    "timeline": [
+      {
+        "date": "2025-12-01T08:00:00.000Z",
+        "event": "case_created",
+        "note": "Application submitted by applicant"
+      },
+      {
+        "date": "2025-12-03T10:00:00.000Z",
+        "event": "evidence_requested",
+        "note": "Requested medical evidence and supplier quotes",
+        "actor": "mbrown"
+      }
+    ],
+    "case_notes": "Applicant has not responded to evidence request. May need escalation soon.",
+    "application_data": {
+      "cost_items": [
+        {
+          "id": "c1",
+          "description": "Specialist placement support",
+          "amount": 2400,
+          "supplier": "HealthEd Support"
+        },
+        {
+          "id": "c2",
+          "description": "Assistive technology bundle",
+          "amount": 800,
+          "supplier": "Microlink PC"
+        }
+      ],
+      "total_amount": 3200,
+      "declaration_confirmed": true,
+      "submitted_at": "2025-12-01T08:00:00.000Z"
+    },
+    "evidence_requested_date": "2025-12-03T10:00:00.000Z"
+  },
+  {
+    "case_id": "DSA-2026-00006",
+    "case_type": "dsa_application",
+    "status": "awaiting_evidence",
+    "applicant": {
+      "name": "fouad khan",
+      "forenames": "fouad",
+      "surname": "khan",
+      "reference": "11111111111",
+      "date_of_birth": "1990-11-18",
+      "sex": "male",
+      "address": {
+        "line1": "ga",
+        "postcode": "g116sd"
+      },
+      "university": "gla",
+      "course": "btech",
+      "notification_channel": "email",
+      "email": "fouad.2014.ece.@gmail.com"
+    },
+    "assigned_to": "jsmith",
+    "created_date": "2026-04-16T13:12:03.032Z",
+    "last_updated": "2026-04-16T13:12:03.032Z",
+    "timeline": [
+      {
+        "date": "2026-04-16T13:12:03.032Z",
+        "event": "case_created",
+        "note": "Application submitted by applicant"
+      }
+    ],
+    "case_notes": "",
+    "application_data": {
+      "cost_items": [
+        {
+          "id": "cost-1",
+          "description": "mobility access",
+          "amount": 500,
+          "supplier": "mobility care"
+        }
+      ],
+      "total_amount": 500,
+      "declaration_confirmed": true,
+      "submitted_at": "2026-04-16T13:12:03.032Z"
+    }
+  },
+  {
+    "case_id": "DSA-2026-00007",
+    "case_type": "dsa_application",
+    "status": "awaiting_evidence",
+    "applicant": {
+      "name": "fouad k",
+      "forenames": "fouad",
+      "surname": "k",
+      "reference": "11111111111",
+      "date_of_birth": "1980-11-18",
+      "sex": "male",
+      "address": {
+        "line1": "ga",
+        "postcode": "g116sd"
+      },
+      "university": "gla",
+      "course": "btech",
+      "notification_channel": "email",
+      "email": "fouad.2014.ece.@gmail.com"
+    },
+    "assigned_to": "jsmith",
+    "created_date": "2026-04-16T13:13:52.496Z",
+    "last_updated": "2026-04-16T13:13:52.496Z",
+    "timeline": [
+      {
+        "date": "2026-04-16T13:13:52.496Z",
+        "event": "case_created",
+        "note": "Application submitted by applicant"
+      }
+    ],
+    "case_notes": "",
+    "application_data": {
+      "cost_items": [
+        {
+          "id": "cost-1",
+          "description": "mobility access",
+          "amount": 500,
+          "supplier": "mobility care"
+        }
+      ],
+      "total_amount": 500,
+      "declaration_confirmed": true,
+      "submitted_at": "2026-04-16T13:13:52.496Z"
+    }
+  }
+]

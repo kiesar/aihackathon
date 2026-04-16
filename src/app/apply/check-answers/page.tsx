@@ -60,7 +60,7 @@ export default function CheckAnswersPage() {
       const response = await fetch("/api/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, declarationConfirmed: true }),
       });
 
       if (response.status === 201) {
