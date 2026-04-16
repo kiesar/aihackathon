@@ -1,5 +1,6 @@
 import "./globals.scss";
 import type { Metadata } from "next";
+import ChatbotWrapper from "@/components/ChatbotWrapper";
 
 export const metadata: Metadata = {
   title: "DSA Allowance Service",
@@ -35,6 +36,8 @@ export default function RootLayout({
         </header>
 
         {children}
+
+        <ChatbotWrapper />
 
         <footer className="govuk-footer" role="contentinfo">
           <div className="govuk-width-container">

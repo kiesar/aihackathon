@@ -456,5 +456,73 @@
       "declaration_confirmed": true,
       "submitted_at": "2026-04-16T13:13:52.496Z"
     }
+  },
+  {
+    "case_id": "DSA-2026-00008",
+    "case_type": "dsa_application",
+    "status": "under_review",
+    "applicant": {
+      "name": "S Sierra",
+      "forenames": "S",
+      "surname": "Sierra",
+      "reference": "",
+      "date_of_birth": "1990-01-13",
+      "sex": "male",
+      "address": {
+        "line1": "10 South Pl, London ",
+        "postcode": "EC2M 7EB"
+      },
+      "university": "University of Manchester",
+      "course": "PG FineLine",
+      "notification_channel": "email",
+      "email": "sarguroh@hotmail.com"
+    },
+    "assigned_to": "jsmith",
+    "created_date": "2026-04-16T15:14:13.048Z",
+    "last_updated": "2026-04-16T15:17:58.267Z",
+    "timeline": [
+      {
+        "date": "2026-04-16T15:14:13.048Z",
+        "event": "case_created",
+        "note": "Application submitted by applicant"
+      },
+      {
+        "date": "2026-04-16T15:15:03.475Z",
+        "event": "evidence_received",
+        "note": "Evidence uploaded by applicant: passport. Files: Screenshot 2026-02-17 160722.png"
+      },
+      {
+        "date": "2026-04-16T15:17:58.267Z",
+        "event": "state_transition",
+        "note": "Need another member to confirm the Mobile Cost",
+        "actor": "jsmith"
+      }
+    ],
+    "case_notes": "",
+    "application_data": {
+      "cost_items": [
+        {
+          "id": "cost-1",
+          "description": "Mobility",
+          "amount": 3000,
+          "supplier": "Mobility Care"
+        },
+        {
+          "id": "cost-4",
+          "description": "Mobile Services",
+          "amount": 1000,
+          "supplier": "Mobile Care"
+        },
+        {
+          "id": "cost-6",
+          "description": "Household Grant",
+          "amount": 2000,
+          "supplier": "Mobility Household"
+        }
+      ],
+      "total_amount": 6000,
+      "declaration_confirmed": true,
+      "submitted_at": "2026-04-16T15:14:13.048Z"
+    }
   }
 ]
