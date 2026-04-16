@@ -1,0 +1,15 @@
+$govuk-assets-path: "/assets/";
+// @import "govuk-frontend/dist/govuk/all";
+
+// Minimal GOV.UK-like styles for the prototype
+// (Full govuk-frontend SCSS import requires asset pipeline setup)
+
+body {
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #0b0c0c;
+  background-color: #fff;
+  margin: 0;
+  padding: 0;
+}

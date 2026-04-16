@@ -146,8 +146,8 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - **Property 8: Check-your-answers completeness** — for any set of form inputs, every entered value appears on the check-your-answers page
     - **Validates: Requirements 3.1**
 
-- [ ] 6. Implement Submission Service and Confirmation
-  - [-] 6.1 Create the Submission API route (`POST /api/submit`)
+- [x] 6. Implement Submission Service and Confirmation
+  - [x] 6.1 Create the Submission API route (`POST /api/submit`)
     - Create `src/app/api/submit/route.ts`
     - Validate the full payload server-side
     - Generate a unique Case_Reference in format `DSA-YYYY-NNNNN`
@@ -161,20 +161,20 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - **Property 9: Case reference format and uniqueness** — for any number of submissions, each Case_Reference matches `DSA-YYYY-NNNNN` and is distinct from all others
     - **Validates: Requirements 4.1, 4.6**
 
-  - [~] 6.3 Implement Confirmation page (`/apply/confirmation`)
+  - [x] 6.3 Implement Confirmation page (`/apply/confirmation`)
     - Create `src/app/apply/confirmation/page.tsx` with GOV.UK confirmation banner
     - Display Case_Reference and next steps summary
     - On submission failure, display GOV.UK error page instead
     - _Requirements: 4.3, 4.4_
 
-- [ ] 7. Implement Status Check page
-  - [~] 7.1 Create the Status Check API route (`GET /api/cases/:ref`)
+- [x] 7. Implement Status Check page
+  - [x] 7.1 Create the Status Check API route (`GET /api/cases/:ref`)
     - Create `src/app/api/cases/[ref]/route.ts`
     - Look up case by Case_Reference; return current `status`, `last_updated`, and `decision_reason` if applicable
     - Return 404 if no case found
     - _Requirements: 5.1, 5.2, 5.3_
 
-  - [~] 7.2 Implement Status Check page (`/apply/status`)
+  - [x] 7.2 Implement Status Check page (`/apply/status`)
     - Create `src/app/apply/status/page.tsx`
     - Input field for Case_Reference; display current Workflow_State in plain English, last updated date
     - For `approved`/`rejected` cases, display outcome and decision date
@@ -187,23 +187,23 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - **Property 12: Workflow_State display names are plain English** — for any valid state code, the display function returns a non-empty human-readable string different from the raw code
     - **Validates: Requirements 5.4**
 
-- [~] 8. Checkpoint — Student journey complete
+- [x] 8. Checkpoint — Student journey complete
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 9. Implement authentication and session management
-  - [~] 9.1 Implement Auth API routes
+- [x] 9. Implement authentication and session management
+  - [x] 9.1 Implement Auth API routes
     - Create `src/app/api/auth/login/route.ts` — look up user by username, `bcrypt.compare` password, set encrypted `iron-session` cookie with `{ username, role, team, lastActivity }`
     - Create `src/app/api/auth/logout/route.ts` — destroy session cookie
     - Return GOV.UK-style error on invalid credentials (no indication of which field is wrong)
     - _Requirements: 11.1, 11.2, 11.4, 11.5_
 
-  - [~] 9.2 Implement auth middleware for dashboard routes
+  - [x] 9.2 Implement auth middleware for dashboard routes
     - Create `src/middleware.ts` or `src/lib/auth-middleware.ts`
     - On every `/dashboard` request (except `/dashboard/login`), read session cookie, check `lastActivity`; if > 8 hours elapsed, clear session and redirect to `/dashboard/login?reason=session_expired`
     - Update `lastActivity` on each valid request
     - _Requirements: 11.3_
 
-  - [~] 9.3 Implement Login page (`/dashboard/login`)
+  - [x] 9.3 Implement Login page (`/dashboard/login`)
     - Create `src/app/dashboard/login/page.tsx` with GOV.UK form
     - Display session expired message if `?reason=session_expired` query param present
     - _Requirements: 11.1, 11.4_
@@ -212,8 +212,8 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - **Property 28: Passwords are not stored in plain text** — for any password string, the stored value is not equal to the plain text and is a valid bcrypt hash (starts with `$2b$`)
     - **Validates: Requirements 11.5**
 
-- [ ] 10. Implement Caseworker Dashboard — Case List
-  - [~] 10.1 Create Dashboard Case List API route (`GET /api/dashboard/cases`)
+- [x] 10. Implement Caseworker Dashboard — Case List
+  - [x] 10.1 Create Dashboard Case List API route (`GET /api/dashboard/cases`)
     - Create `src/app/api/dashboard/cases/route.ts`
     - Return cases where `assigned_to` matches the authenticated caseworker's username
     - Support query params for filtering by `status` and sorting by `created_date` or `last_updated`
@@ -233,7 +233,7 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - **Property 17: Case list counts are accurate** — total and escalation counts match actual data
     - **Validates: Requirements 6.6**
 
-  - [~] 10.3 Implement Case List page (`/dashboard`)
+  - [x] 10.3 Implement Case List page (`/dashboard`)
     - Create `src/app/dashboard/page.tsx`
     - Display case list table with: Case_Reference, Applicant name, case type, Workflow_State, date created, date last updated
     - Filter dropdown by Workflow_State; sort controls for date created and last updated
@@ -241,8 +241,8 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - Display total case count and escalation count
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6_
 
-- [ ] 11. Implement Caseworker Dashboard — Case Detail View
-  - [~] 11.1 Create Case Detail API route (`GET /api/dashboard/cases/:id`)
+- [x] 11. Implement Caseworker Dashboard — Case Detail View
+  - [x] 11.1 Create Case Detail API route (`GET /api/dashboard/cases/:id`)
     - Create `src/app/api/dashboard/cases/[id]/route.ts`
     - Return full case record including applicant details, application data, timeline, case notes
     - Include policy extracts from Policy Engine and relevant clauses for current state
@@ -251,13 +251,13 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - Include evidence days outstanding and flag status if applicable
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 7.6_
 
-  - [~] 11.2 Create AI Summary API route (`GET /api/dashboard/cases/:id/ai-summary`)
+  - [x] 11.2 Create AI Summary API route (`GET /api/dashboard/cases/:id/ai-summary`)
     - Create `src/app/api/dashboard/cases/[id]/ai-summary/route.ts`
     - Call `AISummaryService.getSummary` with case data
     - Return the AI summary response
     - _Requirements: 12.1, 12.3_
 
-  - [~] 11.3 Implement Case Detail page (`/dashboard/cases/:id`)
+  - [x] 11.3 Implement Case Detail page (`/dashboard/cases/:id`)
     - Create `src/app/dashboard/cases/[id]/page.tsx`
     - Display: applicant details, all submitted application data, case timeline (chronological), case notes, current Workflow_State, available transitions as buttons
     - Display policy extracts sidebar with highlighted clauses for current state
@@ -272,15 +272,15 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - **Property 20: Required action matches state machine definition** — for any state, the displayed required action matches `required_action` in workflow-states.json
     - **Validates: Requirements 7.5**
 
-- [ ] 12. Implement Caseworker Workflow Actions
-  - [~] 12.1 Create Workflow Transition API route (`POST /api/dashboard/cases/:id/transition`)
+- [x] 12. Implement Caseworker Workflow Actions
+  - [x] 12.1 Create Workflow Transition API route (`POST /api/dashboard/cases/:id/transition`)
     - Create `src/app/api/dashboard/cases/[id]/transition/route.ts`
     - Accept `{ toState, note, decisionReason? }` in request body
     - Call `WorkflowEngine.applyTransition`; return updated case on success, 400 on invalid transition
     - If transition is to `approved` or `rejected`, require `decisionReason` and call `NotificationService.sendOutcome`
     - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6_
 
-  - [~] 12.2 Add transition UI to Case Detail page
+  - [x] 12.2 Add transition UI to Case Detail page
     - Display only permitted transitions as action buttons
     - Show note textarea (required before confirming)
     - Show decision reason textarea when transitioning to `approved` or `rejected`
@@ -292,17 +292,17 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - **Property 23: Outcome notification sent on terminal state transition** — for any case transitioned to approved/rejected, the notification service is called once with the correct channel and outcome message
     - **Validates: Requirements 8.5**
 
-- [~] 13. Checkpoint — Caseworker dashboard core complete
+- [x] 13. Checkpoint — Caseworker dashboard core complete
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 14. Implement Team Leader View
-  - [~] 14.1 Create Team Leader API routes
+- [x] 14. Implement Team Leader View
+  - [x] 14.1 Create Team Leader API routes
     - Extend `GET /api/dashboard/cases` to support `?view=team` query param for team leaders, returning all cases where `assigned_to` is any caseworker in the team
     - Create `POST /api/dashboard/cases/:id/reassign` route accepting `{ newAssignee }`, updating `assigned_to`, and appending a timeline entry with previous assignee, new assignee, and timestamp
     - Include summary counts by Workflow_State across the team
     - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5_
 
-  - [~] 14.2 Implement Team Leader page (`/dashboard/team`)
+  - [x] 14.2 Implement Team Leader page (`/dashboard/team`)
     - Create `src/app/dashboard/team/page.tsx`
     - Display all team cases with same filters and flags as caseworker view
     - Display summary count of cases by Workflow_State
@@ -318,21 +318,21 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - **Property 27: Reassignment appends correct timeline entry** — for any reassignment, the timeline contains an entry with previous assignee, new assignee, and timestamp
     - **Validates: Requirements 9.5**
 
-- [ ] 15. Accessibility and responsive design pass
-  - [~] 15.1 Ensure all form pages are keyboard navigable and screen-reader accessible
+- [x] 15. Accessibility and responsive design pass
+  - [x] 15.1 Ensure all form pages are keyboard navigable and screen-reader accessible
     - Audit all form fields for programmatically associated labels (`<label for>` or `aria-label`)
     - Link all error messages to fields via `aria-describedby`
     - Ensure all interactive elements are reachable and operable via keyboard alone
     - Ensure no information is conveyed by colour alone
     - _Requirements: 3.5, 3.6, 10.2, 10.3_
 
-  - [~] 15.2 Ensure responsive layout
+  - [x] 15.2 Ensure responsive layout
     - Application form: operable from 320px to 1920px without horizontal scrolling
     - Dashboard: operable from 768px to 1920px
     - Test GOV.UK Frontend responsive grid and typography at breakpoints
     - _Requirements: 10.1, 10.4_
 
-- [~] 16. Final checkpoint — Full integration
+- [x] 16. Final checkpoint — Full integration
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes

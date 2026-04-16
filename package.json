@@ -3,6 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "test": "vitest --run"
+  },
+  "dependencies": {
+    "next": "^14.2.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "govuk-frontend": "^5.4.0",
+    "iron-session": "^8.0.0",
+    "bcrypt": "^5.1.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@types/bcrypt": "^5.0.0",
+    "@types/uuid": "^9.0.0",
+    "vitest": "^1.6.0",
+    "sass": "^1.77.0"
   }
 }
