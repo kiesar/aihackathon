@@ -61,7 +61,7 @@
   {
     "case_id": "DSA-2026-00002",
     "case_type": "dsa_application",
-    "status": "under_review",
+    "status": "evidence_received",
     "applicant": {
       "name": "James Chen",
       "forenames": "James",
@@ -80,7 +80,7 @@
     },
     "assigned_to": "jsmith",
     "created_date": "2026-02-15T14:00:00.000Z",
-    "last_updated": "2026-03-10T11:20:00.000Z",
+    "last_updated": "2026-04-16T14:51:26.163Z",
     "timeline": [
       {
         "date": "2026-02-15T14:00:00.000Z",
@@ -103,6 +103,22 @@
         "event": "state_transition",
         "note": "Evidence complete, beginning review",
         "actor": "jsmith"
+      },
+      {
+        "date": "2026-04-16T14:45:39.135Z",
+        "event": "evidence_requested",
+        "note": "send your DSA Assessment",
+        "actor": "jsmith"
+      },
+      {
+        "date": "2026-04-16T14:46:22.806Z",
+        "event": "state_transition",
+        "note": "Applicant viewed evidence request — status updated to Awaiting evidence."
+      },
+      {
+        "date": "2026-04-16T14:51:26.163Z",
+        "event": "evidence_received",
+        "note": "Evidence uploaded by applicant: birth certificate. Files: Screenshot 2026-02-17 160722.png"
       }
     ],
     "case_notes": "Applicant has dyslexia diagnosis from 2019. Quotes look reasonable.",
@@ -130,7 +146,8 @@
       "total_amount": 2084.99,
       "declaration_confirmed": true,
       "submitted_at": "2026-02-15T14:00:00.000Z"
-    }
+    },
+    "evidence_requested_date": "2026-04-16T14:45:39.135Z"
   },
   {
     "case_id": "DSA-2026-00003",
