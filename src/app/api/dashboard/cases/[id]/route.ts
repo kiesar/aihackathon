@@ -89,11 +89,17 @@ export async function GET(
     );
     const requiredAction = getRequiredAction(caseRecord.status);
 
+    // Sort timeline entries chronologically (ascending by date) per Requirement 7.2
+    const sortedTimeline = [...caseRecord.timeline].sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+    const sortedCaseRecord = { ...caseRecord, timeline: sortedTimeline };
+
     const now = new Date();
     const { days, flag } = calculateEvidenceInfo(caseRecord, now);
 
     const response: CaseDetailResponse = {
-      caseRecord,
+      caseRecord: sortedCaseRecord,
       policyExtracts,
       relevantClauses,
       permittedTransitions,
