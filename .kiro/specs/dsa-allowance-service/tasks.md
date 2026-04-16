@@ -37,7 +37,7 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - Return 400-style error if transition is not permitted; case record must remain unchanged on invalid transition
     - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.6_
 
-  - [ ]* 2.2 Write property tests for Workflow Engine
+  - [x] 2.2 Write property tests for Workflow Engine
     - **Property 21: Permitted transitions match state machine** — for any WorkflowState, the set of transitions returned by `getPermittedTransitions` exactly matches `allowed_transitions` in `workflow-states.json`
     - **Validates: Requirements 8.1**
     - **Property 22: Valid transition updates state and appends timeline entry** — for any valid transition, the resulting case has the new state, a new timeline entry with caseworker username/timestamp/note, and updated `last_updated`
@@ -51,7 +51,7 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - `getRelevantClauses(caseType, currentState)` returns policies matching both case type and `relevant_states`
     - _Requirements: 7.3, 7.4_
 
-  - [ ]* 2.4 Write property test for Policy Engine
+  - [x] 2.4 Write property test for Policy Engine
     - **Property 19: Policy engine returns all and only matching policies** — for any case, the engine returns all extracts where the case type appears in `applicable_case_types` and none where it does not
     - **Validates: Requirements 7.3**
 
@@ -62,7 +62,7 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - Select channel based on `applicant.notification_channel` (email or SMS)
     - _Requirements: 4.5, 8.5_
 
-  - [ ]* 2.6 Write property test for Notification Service
+  - [x] 2.6 Write property test for Notification Service
     - **Property 10: Notification sent on submission with correct channel** — for any submission with a selected notification channel, the service is called once with the correct channel and the message contains the Case_Reference
     - **Validates: Requirements 4.5**
 
@@ -82,7 +82,7 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - Each validator returns a GOV.UK-style error object `{ field, message }` or null
     - _Requirements: 1.4, 1.5, 1.6, 2.3_
 
-  - [ ]* 4.2 Write property tests for validation functions
+  - [x] 4.2 Write property tests for validation functions
     - **Property 3: Date of birth validation** — for any date string, the validator accepts iff it is a real DD/MM/YYYY date with age ≥ 16
     - **Validates: Requirements 1.5**
     - **Property 4: Postcode format validation** — for any string, the validator accepts iff it matches the UK postcode regex
@@ -90,11 +90,11 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - **Property 6: Cost amount validation** — for any numeric string, the validator accepts iff it is positive with ≤ 2 decimal places
     - **Validates: Requirements 2.3**
 
-  - [ ]* 4.3 Write property test for notification channel conditional validation
+  - [x] 4.3 Write property test for notification channel conditional validation
     - **Property 1: Notification channel conditional validation** — for any channel selection (email/SMS), the corresponding contact field is required and the other is not
     - **Validates: Requirements 1.3**
 
-  - [ ]* 4.4 Write property test for required field validation completeness
+  - [x] 4.4 Write property test for required field validation completeness
     - **Property 2: Required field validation completeness** — for any form page submission where one or more required fields are left blank, an error should be present in both the error summary list and as an inline error adjacent to each blank required field
     - **Validates: Requirements 1.4**
 
@@ -104,7 +104,7 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - Implement back-navigation that preserves data on subsequent pages
     - _Requirements: 1.7_
 
-  - [ ]* 5.1a Write property test for back-navigation data preservation
+  - [-] 5.1a Write property test for back-navigation data preservation
     - **Property 5: Back-navigation preserves subsequent page data** — for any sequence of form pages completed in order, navigating back to an earlier page and then forward again should result in all data entered on subsequent pages being unchanged
     - **Validates: Requirements 1.7**
 
@@ -140,7 +140,7 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - Error if zero cost items on proceed
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
 
-  - [ ]* 5.7 Write property test for running total correctness
+  - [x] 5.7 Write property test for running total correctness
     - **Property 7: Running total correctness** — for any list of valid cost items, the running total equals the arithmetic sum rounded to 2 decimal places
     - **Validates: Requirements 2.4**
 
@@ -150,7 +150,7 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - Include declaration checkbox; error if not confirmed on submit
     - _Requirements: 3.1, 3.2, 3.3, 3.4_
 
-  - [ ]* 5.9 Write property test for check-your-answers completeness
+  - [x] 5.9 Write property test for check-your-answers completeness
     - **Property 8: Check-your-answers completeness** — for any set of form inputs, every entered value appears on the check-your-answers page
     - **Validates: Requirements 3.1**
 
@@ -165,7 +165,7 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - Return 201 with `{ caseReference }` on success; return error response on failure
     - _Requirements: 4.1, 4.2, 4.5, 4.6_
 
-  - [ ]* 6.2 Write property test for case reference generation
+  - [x] 6.2 Write property test for case reference generation
     - **Property 9: Case reference format and uniqueness** — for any number of submissions, each Case_Reference matches `DSA-YYYY-NNNNN` and is distinct from all others
     - **Validates: Requirements 4.1, 4.6**
 
@@ -189,7 +189,7 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - Display error if reference not found
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5_
 
-  - [ ]* 7.3 Write property tests for status lookup
+  - [x] 7.3 Write property tests for status lookup
     - **Property 11: Status lookup returns correct state and date** — for any case in the store, looking it up by reference returns the correct state and last_updated
     - **Validates: Requirements 5.2**
     - **Property 12: Workflow_State display names are plain English** — for any valid state code, the display function returns a non-empty human-readable string different from the raw code
@@ -216,7 +216,7 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - Display session expired message if `?reason=session_expired` query param present
     - _Requirements: 11.1, 11.4_
 
-  - [ ]* 9.4 Write property test for password storage
+  - [x] 9.4 Write property test for password storage
     - **Property 28: Passwords are not stored in plain text** — for any password string, the stored value is not equal to the plain text and is a valid bcrypt hash (starts with `$2b$`)
     - **Validates: Requirements 11.5**
 
@@ -229,7 +229,7 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - Include total case count and escalation flag count in response
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6_
 
-  - [ ]* 10.2 Write property tests for case list
+  - [x] 10.2 Write property tests for case list
     - **Property 13: Case list shows only assigned cases** — for any caseworker, the list contains exactly their assigned cases
     - **Validates: Requirements 6.1**
     - **Property 14: Case list filter correctness** — for any state filter, every result has that state and no other states appear
@@ -274,7 +274,7 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - Display AI Summary section clearly labelled as "AI-generated"
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 12.1, 12.2_
 
-  - [ ]* 11.4 Write property tests for case detail
+  - [x] 11.4 Write property tests for case detail
     - **Property 18: Timeline is chronologically ordered** — for any case with 2+ timeline entries, entries are sorted by date ascending
     - **Validates: Requirements 7.2**
     - **Property 20: Required action matches state machine definition** — for any state, the displayed required action matches `required_action` in workflow-states.json
@@ -296,7 +296,7 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - Display error notification if transition is invalid
     - _Requirements: 8.1, 8.2, 8.4, 8.6_
 
-  - [ ]* 12.3 Write property test for outcome notifications
+  - [x] 12.3 Write property test for outcome notifications
     - **Property 23: Outcome notification sent on terminal state transition** — for any case transitioned to approved/rejected, the notification service is called once with the correct channel and outcome message
     - **Validates: Requirements 8.5**
 
@@ -318,7 +318,7 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - Provide reassign action on each case
     - _Requirements: 9.1, 9.2, 9.3, 9.4_
 
-  - [ ]* 14.3 Write property tests for Team Leader view
+  - [x] 14.3 Write property tests for Team Leader view
     - **Property 25: Team leader view contains all team cases** — for any team, the view contains every case assigned to any team caseworker and no cases from outside the team
     - **Validates: Requirements 9.1**
     - **Property 26: Team leader state counts are accurate** — for any set of team cases, the count per state matches the actual data
