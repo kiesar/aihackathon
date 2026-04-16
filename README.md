@@ -1,44 +1,29 @@
 # DSA Allowance Service
 
-A full-stack digital replacement for the paper-based Disabled Students Allowance (DSA) application process, built with Next.js 14, TypeScript, and the GOV.UK Design System.
+A digital replacement for the paper-based Disabled Students Allowance (DSA) application process, built with [Next.js](https://nextjs.org/), TypeScript, and the [GOV.UK Design System](https://design-system.service.gov.uk/).
 
-## What we built
+> **Prototype** — this is a hackathon prototype, not a production service.
 
-This prototype covers two complete user journeys:
+## What this is
 
-**Student application form** — a multi-step, accessible web form that replaces the PDF download-print-scan-email process. Students enter personal details, address, university, contact preferences, and cost items across individual pages following the GOV.UK "one thing per page" pattern. They review answers on a summary page, submit, and receive a unique case reference number (e.g. `DSA-2026-00042`). They can check their application status at any time using that reference.
+This prototype covers two user journeys:
 
-**Caseworker dashboard** — an authenticated case management interface where caseworkers see their assigned cases with status flags, filter and sort by workflow state, open case details with matched policy extracts, apply workflow transitions with notes, and view AI-generated case summaries (mocked). Team leaders get an additional view showing all team cases, escalation flags for overdue evidence (28-day reminder, 56-day escalation), and the ability to reassign cases between caseworkers.
+**Student application form** — a multi-step, accessible web form following the GOV.UK "one thing per page" pattern. Students enter personal details, address, university, contact preferences, and cost items. They review answers on a summary page, submit, and receive a unique case reference (e.g. `DSA-2026-00042`). They can check application status at any time.
 
-## Key features
-
-- GOV.UK Design System styling and interaction patterns throughout
-- Multi-step form with validation, error summaries, and back-navigation that preserves data
-- Workflow state machine with enforced transitions and timeline tracking
-- Policy engine matching relevant policy extracts to case type and current state
-- Evidence deadline flags (28-day amber reminder, 56-day red escalation)
-- Mocked notification service (email/SMS) with clean interface for GOV.UK Notify swap
-- Mocked AI summary service with clean interface for LLM swap
-- Encrypted session-based authentication with 8-hour inactivity timeout
-- Property-based test suite (28 correctness properties, 100+ iterations each)
-
-## Tech stack
-
-| Layer | Choice |
-|---|---|
-| Framework | Next.js 14 (App Router) |
-| Language | TypeScript |
-| UI | GOV.UK Frontend (SCSS) |
-| Data store | JSON files (`data/` directory) |
-| Sessions | iron-session (encrypted cookies) |
-| Testing | Vitest + fast-check (property-based testing) |
+**Caseworker dashboard** — an authenticated case management interface. Caseworkers see assigned cases with status flags, filter and sort by workflow state, view case details with matched policy extracts, apply workflow transitions with notes, and view AI-generated case summaries (mocked). Team leaders see all team cases, escalation flags for overdue evidence, and can reassign cases.
 
 ## Getting started
 
 ### Prerequisites
 
-- Node.js 18+
-- npm
+- [Node.js](https://nodejs.org/) 18 or later (see `.nvmrc`)
+- npm (included with Node.js)
+
+If you use [nvm](https://github.com/nvm-sh/nvm):
+
+```bash
+nvm use
+```
 
 ### Install dependencies
 
@@ -46,13 +31,23 @@ This prototype covers two complete user journeys:
 npm install
 ```
 
+### Set up environment variables
+
+Copy the example environment file and fill in the values:
+
+```bash
+cp .env.example .env
+```
+
+The `SESSION_SECRET` must be at least 32 characters. In development, a fallback is used if unset. In production, it is required.
+
 ### Run the development server
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000).
 
 ### Run tests
 
@@ -60,61 +55,38 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 npm test
 ```
 
-## Demo walkthrough
-
-### Student journey
-
-1. Go to [http://localhost:3000/apply/personal-details](http://localhost:3000/apply/personal-details)
-2. Fill in personal details, address, university, contact preferences, and costs
-3. Review on the "Check your answers" page and submit
-4. Note the case reference on the confirmation page
-5. Check status at [http://localhost:3000/apply/status](http://localhost:3000/apply/status)
-
-### Caseworker dashboard
-
-1. Go to [http://localhost:3000/dashboard/login](http://localhost:3000/dashboard/login)
-2. Log in with one of these accounts:
-
-| Username | Password | Role |
-|---|---|---|
-| `jsmith` | `Password1` | Caseworker |
-| `mbrown` | `Password1` | Caseworker |
-| `awilson` | `Password1` | Team Leader |
-
-3. Browse the case list, filter by status, sort by date
-4. Open a case to see full details, policy extracts, workflow actions, and AI summary
-5. Apply a workflow transition (e.g. "Evidence received") with a note
-6. Log in as `awilson` to see the team leader view with escalation flags and reassignment
 
 ## Project structure
 
 ```
 src/
 ├── app/
-│   ├── apply/          # Student-facing form pages
-│   ├── dashboard/      # Caseworker dashboard pages
-│   └── api/            # API routes (submit, cases, auth, dashboard)
-├── lib/                # Shared utilities (validation, data store, session, form context)
-├── services/           # Backend services (workflow, policy, notifications, AI summary)
-└── types/              # TypeScript interfaces
-data/                   # JSON data files (cases, users, workflow states, policy extracts)
+│   ├── apply/              Student-facing form pages
+│   ├── dashboard/          Caseworker dashboard pages
+│   └── api/                API routes (submit, cases, auth, dashboard)
+├── components/             Shared React components
+├── lib/                    Utilities (validation, data store, session, form context)
+├── services/               Backend services
+│   ├── workflow/            Workflow state machine engine
+│   ├── policy/              Policy matching engine
+│   ├── notifications/       Notification service (mocked for GOV.UK Notify)
+│   └── ai-summary/          AI summary service (mocked for LLM swap)
+└── types/                  TypeScript interfaces
+data/                       JSON seed data (cases, users, workflow states, policy extracts)
 ```
-
-## Architecture decisions
-
-- **JSON file data store** — zero infrastructure, easy to inspect and edit, sufficient for a prototype
-- **Mocked services with clean interfaces** — notification and AI summary services can be swapped for real implementations (GOV.UK Notify, OpenAI) by changing a single export
-- **Property-based testing** — 28 formal correctness properties validated with fast-check, covering validation, workflow transitions, policy matching, notifications, and more
-- **Spec-driven development** — requirements, design, and implementation tasks documented in `.kiro/specs/`
 
 ## Security
 
-- Passwords stored as bcrypt hashes (cost factor 12), never in plain text
-- Login uses `bcrypt.compare` for constant-time password verification
-- Session cookies are encrypted via `iron-session` with a secret from environment variables
-- 8-hour inactivity timeout with automatic session expiry
-- Cookie flags: `httpOnly`, `sameSite: lax`, `secure` in production
-- Case reference input validated against format regex before database lookup
-- Reassignment restricted to team leaders only
-- Input length limits on notes and decision reasons (2000 chars)
-- Generic login error messages — no indication of which field is wrong
+See [SECURITY.md](SECURITY.md) for full details.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Licence
+
+This project is licensed under the [MIT Licence](LICENSE).
+
+All code produced by civil servants is automatically covered by [Crown Copyright](https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/).
+
+Published following the [GOV.UK Service Manual guidance on making source code open and reusable](https://www.gov.uk/service-manual/technology/making-source-code-open-and-reusable).
