@@ -1,0 +1,37 @@
+[
+  {
+    "policy_id": "POL-BR-001",
+    "title": "DSA Eligibility Criteria",
+    "applicable_case_types": ["dsa_application"],
+    "body": "Applicants must be enrolled on a qualifying higher education course and have a disability, long-term health condition, mental health condition, or specific learning difficulty that affects their ability to study.",
+    "relevant_states": ["awaiting_evidence", "evidence_received", "under_review"]
+  },
+  {
+    "policy_id": "POL-BR-002",
+    "title": "Evidence Requirements",
+    "applicable_case_types": ["dsa_application", "allowance_review"],
+    "body": "Applicants must provide evidence of their disability or condition from a qualified medical professional. Evidence must be dated within the last 12 months. Diagnostic assessments for specific learning difficulties must be conducted by a practising psychologist.",
+    "relevant_states": ["awaiting_evidence", "evidence_received"]
+  },
+  {
+    "policy_id": "POL-BR-003",
+    "title": "Cost Item Assessment Guidelines",
+    "applicable_case_types": ["dsa_application"],
+    "body": "Each cost item must be directly related to the applicant's disability-related study needs. Costs must be from approved suppliers where applicable. The maximum annual allowance is subject to the current DSA funding limits.",
+    "relevant_states": ["under_review", "awaiting_assessment"]
+  },
+  {
+    "policy_id": "POL-BR-004",
+    "title": "Escalation Policy",
+    "applicable_case_types": ["dsa_application", "allowance_review", "compliance_check"],
+    "body": "Cases where evidence has been outstanding for more than 56 calendar days must be escalated to a Team Leader for review. A reminder should be sent to the applicant after 28 days.",
+    "relevant_states": ["awaiting_evidence", "escalated"]
+  },
+  {
+    "policy_id": "POL-BR-005",
+    "title": "Compliance Check Procedures",
+    "applicable_case_types": ["compliance_check"],
+    "body": "Compliance checks must verify that the allowance is being used for the approved purposes. Spot checks should be conducted on a random sample of approved cases each quarter.",
+    "relevant_states": ["under_review", "awaiting_assessment"]
+  }
+]

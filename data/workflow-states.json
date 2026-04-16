@@ -1,0 +1,77 @@
+[
+  {
+    "state_id": "awaiting_evidence",
+    "display_name": "Awaiting evidence",
+    "applicable_case_types": ["dsa_application", "allowance_review", "compliance_check"],
+    "required_action": "Wait for the applicant to submit supporting evidence.",
+    "allowed_transitions": [
+      { "to_state": "evidence_received", "display_label": "Evidence received", "requires_note": true },
+      { "to_state": "escalated", "display_label": "Escalate", "requires_note": true },
+      { "to_state": "closed", "display_label": "Withdrawn", "requires_note": true }
+    ],
+    "escalation_threshold_days": 56
+  },
+  {
+    "state_id": "evidence_received",
+    "display_name": "Evidence received",
+    "applicable_case_types": ["dsa_application", "allowance_review", "compliance_check"],
+    "required_action": "Review the submitted evidence and begin case review.",
+    "allowed_transitions": [
+      { "to_state": "under_review", "display_label": "Begin review", "requires_note": true },
+      { "to_state": "awaiting_evidence", "display_label": "Further evidence needed", "requires_note": true }
+    ]
+  },
+  {
+    "state_id": "under_review",
+    "display_name": "Under review",
+    "applicable_case_types": ["dsa_application", "allowance_review", "compliance_check"],
+    "required_action": "Assess the case and make a decision or send for further assessment.",
+    "allowed_transitions": [
+      { "to_state": "awaiting_assessment", "display_label": "Send for assessment", "requires_note": true },
+      { "to_state": "approved", "display_label": "Approve", "requires_note": true, "requires_decision_reason": true },
+      { "to_state": "rejected", "display_label": "Reject", "requires_note": true, "requires_decision_reason": true }
+    ]
+  },
+  {
+    "state_id": "awaiting_assessment",
+    "display_name": "Awaiting assessment",
+    "applicable_case_types": ["dsa_application", "allowance_review"],
+    "required_action": "Wait for the external assessment to be returned.",
+    "allowed_transitions": [
+      { "to_state": "under_review", "display_label": "Assessment returned", "requires_note": true },
+      { "to_state": "approved", "display_label": "Approve post-assessment", "requires_note": true, "requires_decision_reason": true },
+      { "to_state": "rejected", "display_label": "Reject post-assessment", "requires_note": true, "requires_decision_reason": true }
+    ]
+  },
+  {
+    "state_id": "escalated",
+    "display_name": "Escalated",
+    "applicable_case_types": ["dsa_application", "allowance_review", "compliance_check"],
+    "required_action": "Team leader to review the escalated case and resolve.",
+    "allowed_transitions": [
+      { "to_state": "under_review", "display_label": "Escalation resolved", "requires_note": true },
+      { "to_state": "closed", "display_label": "Withdrawn", "requires_note": true }
+    ]
+  },
+  {
+    "state_id": "approved",
+    "display_name": "Approved",
+    "applicable_case_types": ["dsa_application", "allowance_review", "compliance_check"],
+    "required_action": "No further action required. Case has been approved.",
+    "allowed_transitions": []
+  },
+  {
+    "state_id": "rejected",
+    "display_name": "Rejected",
+    "applicable_case_types": ["dsa_application", "allowance_review", "compliance_check"],
+    "required_action": "No further action required. Case has been rejected.",
+    "allowed_transitions": []
+  },
+  {
+    "state_id": "closed",
+    "display_name": "Closed",
+    "applicable_case_types": ["dsa_application", "allowance_review", "compliance_check"],
+    "required_action": "No further action required. Case has been closed.",
+    "allowed_transitions": []
+  }
+]

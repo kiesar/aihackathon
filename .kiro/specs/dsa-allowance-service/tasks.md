@@ -6,7 +6,7 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
 
 ## Tasks
 
-- [-] 1. Set up project structure, dependencies, and core data models
+- [x] 1. Set up project structure, dependencies, and core data models
   - [x] 1.1 Initialise Next.js 14 project with TypeScript, install dependencies (`govuk-frontend`, `iron-session`, `bcrypt`, `uuid`), and configure SCSS for GOV.UK Frontend
     - Create `next.config.js` with SCSS support
     - Set up `src/app/layout.tsx` with GOV.UK template markup (header, footer, skip link)
@@ -24,13 +24,13 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - Create `data/users.json` with seed caseworker and team leader accounts (bcrypt-hashed passwords)
     - _Requirements: 4.2, 7.3, 7.4, 7.5, 8.1, 11.5_
 
-  - [-] 1.4 Implement JSON file data access layer
+  - [x] 1.4 Implement JSON file data access layer
     - Create `src/lib/data-store.ts` with read/write helpers for each JSON file (cases, users, workflow states, policy extracts)
     - Ensure atomic writes (write to temp file then rename) to prevent corruption
     - _Requirements: 4.2, 6.1_
 
-- [ ] 2. Implement core backend services
-  - [~] 2.1 Implement the Workflow Engine
+- [x] 2. Implement core backend services
+  - [x] 2.1 Implement the Workflow Engine
     - Create `src/services/workflow/workflow-engine.ts` implementing `WorkflowEngine` interface
     - `getPermittedTransitions(currentState)` reads `workflow-states.json` and returns allowed transitions
     - `applyTransition(caseId, toState, note, caseworkerId, decisionReason?)` validates the transition is permitted, updates case state, appends timeline entry with actor and timestamp, updates `last_updated`, and requires `decisionReason` for `approved`/`rejected`
@@ -45,7 +45,7 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - **Property 24: Invalid transition leaves case unchanged** — for any invalid transition attempt, the case record remains completely unchanged
     - **Validates: Requirements 8.6**
 
-  - [~] 2.3 Implement the Policy Engine
+  - [x] 2.3 Implement the Policy Engine
     - Create `src/services/policy/policy-engine.ts` implementing `PolicyEngine` interface
     - `getPoliciesForCase(caseType)` returns all policy extracts where `applicable_case_types` includes the given case type
     - `getRelevantClauses(caseType, currentState)` returns policies matching both case type and `relevant_states`
@@ -55,7 +55,7 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - **Property 19: Policy engine returns all and only matching policies** — for any case, the engine returns all extracts where the case type appears in `applicable_case_types` and none where it does not
     - **Validates: Requirements 7.3**
 
-  - [~] 2.5 Implement the Notification Service (mock)
+  - [x] 2.5 Implement the Notification Service (mock)
     - Create `src/services/notifications/types.ts` with `NotificationService` interface
     - Create `src/services/notifications/mock-notification.service.ts` implementing the interface
     - `sendConfirmation`, `sendOutcome`, `sendReminder` methods log to console and record in `sent` array
@@ -66,18 +66,18 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - **Property 10: Notification sent on submission with correct channel** — for any submission with a selected notification channel, the service is called once with the correct channel and the message contains the Case_Reference
     - **Validates: Requirements 4.5**
 
-  - [~] 2.7 Implement the AI Summary Service (mock)
+  - [x] 2.7 Implement the AI Summary Service (mock)
     - Create `src/services/ai-summary/types.ts` with `AISummaryRequest`, `AISummaryResponse`, `AISummaryService` interfaces
     - Create `src/services/ai-summary/mock-ai-summary.service.ts` with `MockAISummaryService`
     - Create `MOCK_SUMMARIES` map keyed by `caseType + currentState` with realistic pre-written summaries
     - Create `src/services/ai-summary/index.ts` exporting the mock (DI swap point)
     - _Requirements: 12.1, 12.2, 12.3, 12.4_
 
-- [~] 3. Checkpoint — Core services
+- [x] 3. Checkpoint — Core services
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 4. Implement form validation utilities
-  - [~] 4.1 Create shared validation functions
+- [x] 4. Implement form validation utilities
+  - [x] 4.1 Create shared validation functions
     - Create `src/lib/validation.ts` with validators for: required fields, date of birth (real calendar date in DD/MM/YYYY, age ≥ 16), UK postcode format, cost amount (positive, ≤ 2 decimal places), email format, UK phone number format
     - Each validator returns a GOV.UK-style error object `{ field, message }` or null
     - _Requirements: 1.4, 1.5, 1.6, 2.3_
@@ -94,37 +94,37 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - **Property 1: Notification channel conditional validation** — for any channel selection (email/SMS), the corresponding contact field is required and the other is not
     - **Validates: Requirements 1.3**
 
-- [ ] 5. Implement student-facing application form pages
-  - [~] 5.1 Create form state management and navigation
+- [x] 5. Implement student-facing application form pages
+  - [x] 5.1 Create form state management and navigation
     - Create `src/lib/form-context.ts` with a React context or server-side session store to hold form data across pages
     - Implement back-navigation that preserves data on subsequent pages
     - _Requirements: 1.7_
 
-  - [~] 5.2 Implement Personal Details page (`/apply/personal-details`)
+  - [x] 5.2 Implement Personal Details page (`/apply/personal-details`)
     - Create `src/app/apply/personal-details/page.tsx` with GOV.UK form components
     - Fields: Customer_Reference_Number (optional), Forename(s), Surname, Sex (radio group), Date of Birth (day/month/year inputs)
     - Server-side validation on submit; display GOV.UK error summary + inline errors on failure
     - _Requirements: 1.1, 1.2, 1.4, 1.5_
 
-  - [~] 5.3 Implement Address page (`/apply/address`)
+  - [x] 5.3 Implement Address page (`/apply/address`)
     - Create `src/app/apply/address/page.tsx`
     - Fields: Address line 1, line 2, line 3, Postcode
     - Postcode validation on submit
     - _Requirements: 1.1, 1.2, 1.6_
 
-  - [~] 5.4 Implement University page (`/apply/university`)
+  - [x] 5.4 Implement University page (`/apply/university`)
     - Create `src/app/apply/university/page.tsx`
     - Fields: University name, Course name
     - _Requirements: 1.1, 1.2_
 
-  - [~] 5.5 Implement Contact Preferences page (`/apply/contact`)
+  - [x] 5.5 Implement Contact Preferences page (`/apply/contact`)
     - Create `src/app/apply/contact/page.tsx`
     - Radio group for notification channel (email / SMS)
     - Conditionally show email or phone field based on selection
     - Validate that the corresponding field is provided
     - _Requirements: 1.3_
 
-  - [~] 5.6 Implement Costs page (`/apply/costs`)
+  - [x] 5.6 Implement Costs page (`/apply/costs`)
     - Create `src/app/apply/costs/page.tsx`
     - Allow adding/removing cost line items (description, amount, supplier) up to 10
     - Validate cost amounts (positive, ≤ 2 decimal places)
@@ -136,7 +136,7 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - **Property 7: Running total correctness** — for any list of valid cost items, the running total equals the arithmetic sum rounded to 2 decimal places
     - **Validates: Requirements 2.4**
 
-  - [~] 5.8 Implement Check Your Answers page (`/apply/check-answers`)
+  - [x] 5.8 Implement Check Your Answers page (`/apply/check-answers`)
     - Create `src/app/apply/check-answers/page.tsx` using GOV.UK summary list pattern
     - Display all entered data with change links that navigate back to the relevant page
     - Include declaration checkbox; error if not confirmed on submit
@@ -147,7 +147,7 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - **Validates: Requirements 3.1**
 
 - [ ] 6. Implement Submission Service and Confirmation
-  - [~] 6.1 Create the Submission API route (`POST /api/submit`)
+  - [-] 6.1 Create the Submission API route (`POST /api/submit`)
     - Create `src/app/api/submit/route.ts`
     - Validate the full payload server-side
     - Generate a unique Case_Reference in format `DSA-YYYY-NNNNN`
