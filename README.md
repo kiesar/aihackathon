@@ -1,0 +1,2 @@
+# aihackathon
+Hackathons on AI
