@@ -1,4 +1,4 @@
-// File: C:\Users\fouad\OneDrive\Desktop\AI-hackathon\challenge\aihackathon\src\app\api\apply\ai-assist\route.ts
+// File: C:\Users\chaey\Desktop\AIE\aihackathon\src\app\api\apply\ai-assist\route.ts
 import * as entry from '../../../../../../src/app/api/apply/ai-assist/route.js'
 import type { NextRequest } from 'next/server.js'
 

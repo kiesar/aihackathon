@@ -1,13 +1,6 @@
 {
-  "/dashboard/page": "app/dashboard/page.js",
-  "/dashboard/login/page": "app/dashboard/login/page.js",
-  "/dashboard/insights/page": "app/dashboard/insights/page.js",
-  "/api/dashboard/team-members/route": "app/api/dashboard/team-members/route.js",
-  "/api/dashboard/cases/route": "app/api/dashboard/cases/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/page": "app/page.js",
-  "/api/auth/login/route": "app/api/auth/login/route.js",
-  "/api/dashboard/insights/route": "app/api/dashboard/insights/route.js",
   "/api/apply/ai-assist/route": "app/api/apply/ai-assist/route.js",
-  "/apply/status/page": "app/apply/status/page.js",
   "/apply/personal-details/page": "app/apply/personal-details/page.js"
 }
