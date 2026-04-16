@@ -94,11 +94,19 @@ This plan implements the DSA Allowance Service as a Next.js 14 (App Router) full
     - **Property 1: Notification channel conditional validation** — for any channel selection (email/SMS), the corresponding contact field is required and the other is not
     - **Validates: Requirements 1.3**
 
+  - [ ]* 4.4 Write property test for required field validation completeness
+    - **Property 2: Required field validation completeness** — for any form page submission where one or more required fields are left blank, an error should be present in both the error summary list and as an inline error adjacent to each blank required field
+    - **Validates: Requirements 1.4**
+
 - [x] 5. Implement student-facing application form pages
   - [x] 5.1 Create form state management and navigation
     - Create `src/lib/form-context.ts` with a React context or server-side session store to hold form data across pages
     - Implement back-navigation that preserves data on subsequent pages
     - _Requirements: 1.7_
+
+  - [ ]* 5.1a Write property test for back-navigation data preservation
+    - **Property 5: Back-navigation preserves subsequent page data** — for any sequence of form pages completed in order, navigating back to an earlier page and then forward again should result in all data entered on subsequent pages being unchanged
+    - **Validates: Requirements 1.7**
 
   - [x] 5.2 Implement Personal Details page (`/apply/personal-details`)
     - Create `src/app/apply/personal-details/page.tsx` with GOV.UK form components
