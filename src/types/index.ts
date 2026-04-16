@@ -6,6 +6,7 @@ export type CaseType = "dsa_application" | "allowance_review" | "compliance_chec
 
 export type WorkflowStateName =
   | "awaiting_evidence"
+  | "evidence_requested"
   | "evidence_received"
   | "under_review"
   | "awaiting_assessment"

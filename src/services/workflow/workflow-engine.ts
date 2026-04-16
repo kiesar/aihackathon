@@ -80,6 +80,8 @@ export function createWorkflowEngine(): WorkflowEngine {
         event:
           toState === "approved" || toState === "rejected"
             ? "decision_made"
+            : toState === "evidence_requested"
+            ? "evidence_requested"
             : "state_transition",
         note,
         actor: caseworkerId,
@@ -89,6 +91,10 @@ export function createWorkflowEngine(): WorkflowEngine {
       caseRecord.status = toState;
       caseRecord.last_updated = now;
       caseRecord.timeline.push(timelineEntry);
+
+      if (toState === "evidence_requested") {
+        caseRecord.evidence_requested_date = now;
+      }
 
       if (decisionReason) {
         caseRecord.decision_reason = decisionReason;

@@ -1,21 +1,21 @@
 [
   {
     "username": "jsmith",
-    "password_hash": "$2b$12$eAvIMASZkK5c83jj47EoO.AE5YqsQo2Q2RA2pSolxqlXRRlAiXw6e",
+    "password_hash": "Password1",
     "role": "caseworker",
     "team": "team_a",
     "display_name": "Jane Smith"
   },
   {
     "username": "mbrown",
-    "password_hash": "$2b$12$eAvIMASZkK5c83jj47EoO.AE5YqsQo2Q2RA2pSolxqlXRRlAiXw6e",
+    "password_hash": "Password1",
     "role": "caseworker",
     "team": "team_a",
     "display_name": "Mark Brown"
   },
   {
     "username": "awilson",
-    "password_hash": "$2b$12$eAvIMASZkK5c83jj47EoO.AE5YqsQo2Q2RA2pSolxqlXRRlAiXw6e",
+    "password_hash": "Password1",
     "role": "team_leader",
     "team": "team_a",
     "display_name": "Alice Wilson"

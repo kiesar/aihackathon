@@ -57,6 +57,7 @@ export default function StatusCheckPage() {
   }
 
   const isTerminal = result?.status === "approved" || result?.status === "rejected";
+  const canUploadEvidence = result?.status === "awaiting_evidence" || result?.status === "evidence_requested";
 
   return (
     <div className="govuk-width-container">
@@ -148,6 +149,21 @@ export default function StatusCheckPage() {
                 </div>
               )}
             </dl>
+          </div>
+        )}
+
+        {result && canUploadEvidence && (
+          <div style={{ marginTop: "30px" }}>
+            <h2 className="govuk-heading-m">Upload evidence</h2>
+            <p className="govuk-body">
+              Your application requires supporting evidence. You can upload your documents below.
+            </p>
+            <a
+              href={`/apply/evidence?ref=${encodeURIComponent(caseReference.trim())}`}
+              className="govuk-button"
+            >
+              Upload evidence
+            </a>
           </div>
         )}
       </main>

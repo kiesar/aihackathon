@@ -27,7 +27,7 @@ function calculateEvidenceInfo(
   now: Date
 ): { days: number | null; flag: "none" | "reminder" | "escalation" } {
   if (
-    caseRecord.status !== "awaiting_evidence" ||
+    (caseRecord.status !== "awaiting_evidence" && caseRecord.status !== "evidence_requested") ||
     !caseRecord.evidence_requested_date
   ) {
     return { days: null, flag: "none" };

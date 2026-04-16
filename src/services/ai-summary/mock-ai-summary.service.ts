@@ -23,6 +23,18 @@ const MOCK_SUMMARIES: Record<
     recommendedAction:
       "Monitor for incoming evidence. If no evidence is received within 28 days, send a reminder to the applicant.",
   },
+  "dsa_application:evidence_requested": {
+    summary:
+      "Additional evidence has been formally requested from the applicant for this DSA application. " +
+      "The caseworker has identified specific documents or information needed to progress the case. " +
+      "The applicant has been notified of what is required.",
+    outstandingEvidence: [
+      "Documents specified in the evidence request to the applicant",
+      "Any additional supporting documentation identified during review",
+    ],
+    recommendedAction:
+      "Wait for the applicant to submit the requested evidence. Send a reminder if not received within 28 days. Escalate after 56 days.",
+  },
   "dsa_application:evidence_received": {
     summary:
       "Supporting evidence has been received for this DSA application. " +

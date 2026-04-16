@@ -4,6 +4,7 @@ import type { WorkflowStateName } from "@/types";
 
 const DISPLAY_STATUS: Record<WorkflowStateName, string> = {
   awaiting_evidence: "Awaiting evidence",
+  evidence_requested: "Evidence requested",
   evidence_received: "Evidence received",
   under_review: "Under review",
   awaiting_assessment: "Awaiting assessment",

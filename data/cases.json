@@ -328,7 +328,7 @@
   {
     "case_id": "DSA-2026-00006",
     "case_type": "dsa_application",
-    "status": "awaiting_evidence",
+    "status": "evidence_requested",
     "applicant": {
       "name": "fouad khan",
       "forenames": "fouad",
@@ -345,14 +345,32 @@
       "notification_channel": "email",
       "email": "fouad.2014.ece.@gmail.com"
     },
-    "assigned_to": "jsmith",
+    "assigned_to": "mbrown",
     "created_date": "2026-04-16T13:12:03.032Z",
-    "last_updated": "2026-04-16T13:12:03.032Z",
+    "last_updated": "2026-04-16T13:59:55.479Z",
     "timeline": [
       {
         "date": "2026-04-16T13:12:03.032Z",
         "event": "case_created",
         "note": "Application submitted by applicant"
+      },
+      {
+        "date": "2026-04-16T13:38:22.769Z",
+        "event": "reassigned",
+        "note": "Reassigned from jsmith to awilson",
+        "actor": "jsmith"
+      },
+      {
+        "date": "2026-04-16T13:53:10.044Z",
+        "event": "evidence_requested",
+        "note": "send sponsor bank statement",
+        "actor": "awilson"
+      },
+      {
+        "date": "2026-04-16T13:59:55.479Z",
+        "event": "reassigned",
+        "note": "Reassigned from awilson to mbrown",
+        "actor": "awilson"
       }
     ],
     "case_notes": "",
@@ -368,7 +386,8 @@
       "total_amount": 500,
       "declaration_confirmed": true,
       "submitted_at": "2026-04-16T13:12:03.032Z"
-    }
+    },
+    "evidence_requested_date": "2026-04-16T13:53:10.044Z"
   },
   {
     "case_id": "DSA-2026-00007",
@@ -390,14 +409,20 @@
       "notification_channel": "email",
       "email": "fouad.2014.ece.@gmail.com"
     },
-    "assigned_to": "jsmith",
+    "assigned_to": "mbrown",
     "created_date": "2026-04-16T13:13:52.496Z",
-    "last_updated": "2026-04-16T13:13:52.496Z",
+    "last_updated": "2026-04-16T13:37:59.409Z",
     "timeline": [
       {
         "date": "2026-04-16T13:13:52.496Z",
         "event": "case_created",
         "note": "Application submitted by applicant"
+      },
+      {
+        "date": "2026-04-16T13:37:59.410Z",
+        "event": "reassigned",
+        "note": "Reassigned from jsmith to mbrown",
+        "actor": "jsmith"
       }
     ],
     "case_notes": "",

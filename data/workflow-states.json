@@ -5,7 +5,21 @@
     "applicable_case_types": ["dsa_application", "allowance_review", "compliance_check"],
     "required_action": "Wait for the applicant to submit supporting evidence.",
     "allowed_transitions": [
+      { "to_state": "evidence_requested", "display_label": "Request evidence", "requires_note": true },
       { "to_state": "evidence_received", "display_label": "Evidence received", "requires_note": true },
+      { "to_state": "escalated", "display_label": "Escalate", "requires_note": true },
+      { "to_state": "closed", "display_label": "Withdrawn", "requires_note": true }
+    ],
+    "escalation_threshold_days": 56
+  },
+  {
+    "state_id": "evidence_requested",
+    "display_name": "Evidence requested",
+    "applicable_case_types": ["dsa_application", "allowance_review", "compliance_check"],
+    "required_action": "Evidence has been requested from the applicant. Wait for the applicant to provide additional evidence.",
+    "allowed_transitions": [
+      { "to_state": "evidence_received", "display_label": "Evidence received", "requires_note": true },
+      { "to_state": "awaiting_evidence", "display_label": "Back to awaiting evidence", "requires_note": true },
       { "to_state": "escalated", "display_label": "Escalate", "requires_note": true },
       { "to_state": "closed", "display_label": "Withdrawn", "requires_note": true }
     ],
@@ -18,7 +32,7 @@
     "required_action": "Review the submitted evidence and begin case review.",
     "allowed_transitions": [
       { "to_state": "under_review", "display_label": "Begin review", "requires_note": true },
-      { "to_state": "awaiting_evidence", "display_label": "Further evidence needed", "requires_note": true }
+      { "to_state": "evidence_requested", "display_label": "Request further evidence", "requires_note": true }
     ]
   },
   {
@@ -28,6 +42,7 @@
     "required_action": "Assess the case and make a decision or send for further assessment.",
     "allowed_transitions": [
       { "to_state": "awaiting_assessment", "display_label": "Send for assessment", "requires_note": true },
+      { "to_state": "evidence_requested", "display_label": "Request additional evidence", "requires_note": true },
       { "to_state": "approved", "display_label": "Approve", "requires_note": true, "requires_decision_reason": true },
       { "to_state": "rejected", "display_label": "Reject", "requires_note": true, "requires_decision_reason": true }
     ]

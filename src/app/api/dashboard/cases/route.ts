@@ -29,7 +29,7 @@ function calculateEvidenceFlag(
   now: Date
 ): { flag: "none" | "reminder" | "escalation"; days: number | null } {
   if (
-    c.status !== "awaiting_evidence" ||
+    c.status !== "awaiting_evidence" && c.status !== "evidence_requested" ||
     !c.evidence_requested_date
   ) {
     return { flag: "none", days: null };

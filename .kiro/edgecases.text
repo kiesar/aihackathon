@@ -1,0 +1,42 @@
+Form validation:
+
+Submit with all fields blank — should show errors for every required field
+Date of birth: 29/02/2001 (not a leap year), 31/04/2005 (April has 30 days), 00/01/2000 (day zero)
+Someone born exactly 16 years ago today — should pass; 15 years and 364 days — should fail
+Postcode edge cases: M1 1AA (short format), SW1A1AA (no space), sw1a 1aa (lowercase)
+Cost amount: 0, -5, 10.999 (3 decimal places), abc
+Add exactly 10 cost items, then try to add an 11th — button should be disabled
+Remove all cost items and try to proceed — should error
+Navigation:
+
+Fill out all pages, go back to personal details, change your name, then go forward — all other pages should still have their data
+Refresh the browser mid-form — context is client-side so data will be lost (expected behavior, but worth knowing)
+Go directly to /apply/check-answers without filling anything — should show empty/blank values
+Submission:
+
+Submit two applications rapidly — case references should be sequential and unique
+Submit with email channel but leave email blank, or SMS channel with no phone number
+Status check:
+
+Look up a valid case reference like DSA-2026-00001
+Look up a nonexistent reference like DSA-9999-99999
+Look up an approved case — should show decision details
+Enter an empty reference and submit
+Dashboard:
+
+Log in as jsmith — should see only their 3 cases
+Log in as awilson (team leader) and go to /dashboard/team — should see all 5 cases with escalation flags on the old ones
+Filter by status, then clear the filter
+Try transitioning a case from "under review" to "approved" — should require both a note and a decision reason
+Try transitioning without entering a note — should show inline error
+Auth:
+
+Try accessing /dashboard without logging in — should redirect to login
+Log in, then wait 8+ hours (or manually edit the session) — should expire
+Try wrong password — should show generic error, not reveal which field is wrong
+Try a username that doesn't exist — same generic error
+Team leader:
+
+Reassign a case to another team member — timeline should record it
+Try reassigning to the same person already assigned — should error
+Check the state counts summary matches the actual case data
