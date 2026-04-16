@@ -1,13 +1,15 @@
 {
-  "/dashboard/page": "app/dashboard/page.js",
-  "/dashboard/login/page": "app/dashboard/login/page.js",
-  "/dashboard/insights/page": "app/dashboard/insights/page.js",
+  "/api/cases/[ref]/route": "app/api/cases/[ref]/route.js",
+  "/api/auth/login/route": "app/api/auth/login/route.js",
   "/api/dashboard/team-members/route": "app/api/dashboard/team-members/route.js",
   "/api/dashboard/cases/route": "app/api/dashboard/cases/route.js",
+  "/api/dashboard/cases/[id]/route": "app/api/dashboard/cases/[id]/route.js",
+  "/api/dashboard/cases/[id]/ai-summary/route": "app/api/dashboard/cases/[id]/ai-summary/route.js",
+  "/dashboard/insights/page": "app/dashboard/insights/page.js",
+  "/dashboard/cases/[id]/page": "app/dashboard/cases/[id]/page.js",
   "/page": "app/page.js",
-  "/api/auth/login/route": "app/api/auth/login/route.js",
-  "/api/dashboard/insights/route": "app/api/dashboard/insights/route.js",
-  "/api/apply/ai-assist/route": "app/api/apply/ai-assist/route.js",
+  "/dashboard/login/page": "app/dashboard/login/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
   "/apply/status/page": "app/apply/status/page.js",
-  "/apply/personal-details/page": "app/apply/personal-details/page.js"
+  "/apply/evidence/page": "app/apply/evidence/page.js"
 }

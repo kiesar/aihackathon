@@ -1,10 +1,5 @@
 {
   "pages": {
-    "/dashboard/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/page.js"
-    ],
     "/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -21,30 +16,80 @@
       "static/chunks/main-app.js",
       "static/chunks/app/dashboard/login/page.js"
     ],
-    "/dashboard/cases/[id]/page": [
+    "/api/auth/login/route": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/cases/[id]/page.js"
+      "static/chunks/app/api/auth/login/route.js"
     ],
-    "/apply/status/page": [
+    "/dashboard/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/apply/status/page.js"
+      "static/chunks/app/dashboard/page.js"
     ],
-    "/apply/layout": [
+    "/api/dashboard/team-members/route": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/apply/layout.js"
+      "static/chunks/app/api/dashboard/team-members/route.js"
+    ],
+    "/api/dashboard/cases/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/dashboard/cases/route.js"
     ],
     "/dashboard/insights/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/dashboard/insights/page.js"
     ],
-    "/apply/personal-details/page": [
+    "/api/dashboard/insights/route": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/apply/personal-details/page.js"
+      "static/chunks/app/api/dashboard/insights/route.js"
+    ],
+    "/dashboard/cases/[id]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/dashboard/cases/[id]/page.js"
+    ],
+    "/api/dashboard/cases/[id]/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/dashboard/cases/[id]/route.js"
+    ],
+    "/api/dashboard/cases/[id]/ai-summary/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/dashboard/cases/[id]/ai-summary/route.js"
+    ],
+    "/api/dashboard/cases/[id]/transition/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/dashboard/cases/[id]/transition/route.js"
+    ],
+    "/apply/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/apply/layout.js"
+    ],
+    "/apply/status/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/apply/status/page.js"
+    ],
+    "/api/cases/[ref]/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/cases/[ref]/route.js"
+    ],
+    "/apply/evidence/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/apply/evidence/page.js"
+    ],
+    "/api/cases/evidence/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/cases/evidence/route.js"
     ]
   }
 }

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readCases } from "@/lib/data-store";
+import { readCases, writeCases } from "@/lib/data-store";
 import type { WorkflowStateName } from "@/types";
 
 const DISPLAY_STATUS: Record<WorkflowStateName, string> = {
@@ -28,6 +28,24 @@ export async function GET(
         { error: "No application found for that reference number. Check the reference and try again." },
         { status: 404 }
       );
+    }
+
+    // When an applicant views their status and the case is in
+    // "evidence_requested", it means the caseworker has requested evidence
+    // and the applicant has now seen that request. Automatically transition
+    // to "awaiting_evidence" so the caseworker knows the applicant is aware.
+    if (found.status === "evidence_requested") {
+      const now = new Date().toISOString();
+      found.status = "awaiting_evidence";
+      found.last_updated = now;
+      found.evidence_requested_date = found.evidence_requested_date ?? now;
+      found.timeline.push({
+        date: now,
+        event: "state_transition",
+        note: "Applicant viewed evidence request — status updated to Awaiting evidence.",
+      });
+      const allCases = cases.map((c) => (c.case_id === found.case_id ? found : c));
+      writeCases(allCases);
     }
 
     const response: {
