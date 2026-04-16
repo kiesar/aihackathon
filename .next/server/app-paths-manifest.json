@@ -1,13 +1,5 @@
 {
-  "/dashboard/page": "app/dashboard/page.js",
-  "/page": "app/page.js",
-  "/dashboard/login/page": "app/dashboard/login/page.js",
   "/api/auth/login/route": "app/api/auth/login/route.js",
-  "/api/dashboard/cases/route": "app/api/dashboard/cases/route.js",
-  "/dashboard/cases/[id]/page": "app/dashboard/cases/[id]/page.js",
-  "/api/dashboard/cases/[id]/route": "app/api/dashboard/cases/[id]/route.js",
-  "/api/dashboard/cases/[id]/ai-summary/route": "app/api/dashboard/cases/[id]/ai-summary/route.js",
-  "/api/dashboard/cases/[id]/transition/route": "app/api/dashboard/cases/[id]/transition/route.js",
-  "/apply/confirmation/page": "app/apply/confirmation/page.js",
-  "/apply/status/page": "app/apply/status/page.js"
+  "/page": "app/page.js",
+  "/dashboard/login/page": "app/dashboard/login/page.js"
 }
