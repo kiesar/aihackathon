@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { readCases, writeCases } from "@/lib/data-store";
+import type { EvidenceSubmission } from "@/types";
 
 interface EvidencePayload {
   caseReference: string;
   description: string;
   files: Array<{ name: string; size: number; type: string }>;
+  extractedFields?: Array<{ key: string; label: string; value: string; confidence: string }>;
 }
 
 // Validate case reference format
@@ -22,7 +24,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { caseReference, description, files } = body;
+    const { caseReference, description, files, extractedFields } = body;
 
     if (!caseReference) {
       return NextResponse.json(
@@ -98,7 +100,24 @@ export async function POST(request: NextRequest) {
       .map((f) => (f.name || "unknown").replace(/[/\\]/g, "_"))
       .join(", ");
 
-    // Update case: transition to evidence_received, add timeline entry
+    // Build evidence submission record
+    const submission: EvidenceSubmission = {
+      submitted_at: now,
+      description: description.trim(),
+      files: files.map((f) => ({
+        name: (f.name || "unknown").replace(/[/\\]/g, "_"),
+        size: f.size,
+        type: f.type,
+      })),
+      extracted_fields: (extractedFields || []).map((field) => ({
+        key: field.key,
+        label: field.label,
+        value: field.value,
+        confidence: field.confidence as "high" | "medium" | "low",
+      })),
+    };
+
+    // Update case: transition to evidence_received, add timeline entry, store submission
     caseRecord.status = "evidence_received";
     caseRecord.last_updated = now;
     caseRecord.timeline.push({
@@ -106,6 +125,12 @@ export async function POST(request: NextRequest) {
       event: "evidence_received",
       note: `Evidence uploaded by applicant: ${description.trim().slice(0, 500)}. Files: ${fileNames.slice(0, 500)}`,
     });
+
+    // Append to evidence_submissions array
+    if (!caseRecord.evidence_submissions) {
+      caseRecord.evidence_submissions = [];
+    }
+    caseRecord.evidence_submissions.push(submission);
 
     cases[caseIndex] = caseRecord;
     writeCases(cases);

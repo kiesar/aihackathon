@@ -294,12 +294,20 @@ export default function TeamLeaderPage() {
                   <td className="govuk-table__cell">{formatDate(c.last_updated)}</td>
                   <td className="govuk-table__cell">
                     {c.evidence_flag === "escalation" && (
-                      <strong className="govuk-tag govuk-tag--red" title={`${c.days_outstanding} days outstanding — escalation required`}>
+                      <strong
+                        className="govuk-tag govuk-tag--red"
+                        title={`${c.days_outstanding} days outstanding — escalation required`}
+                        style={c.days_outstanding !== null && c.days_outstanding > 30 ? { backgroundColor: "#d4351c", color: "#ffffff" } : undefined}
+                      >
                         Escalation ({c.days_outstanding}d)
                       </strong>
                     )}
                     {c.evidence_flag === "reminder" && (
-                      <strong className="govuk-tag govuk-tag--yellow" title={`${c.days_outstanding} days outstanding — reminder due`}>
+                      <strong
+                        className="govuk-tag govuk-tag--yellow"
+                        title={`${c.days_outstanding} days outstanding — reminder due`}
+                        style={c.days_outstanding !== null && c.days_outstanding > 30 ? { backgroundColor: "#d4351c", color: "#ffffff" } : undefined}
+                      >
                         Reminder ({c.days_outstanding}d)
                       </strong>
                     )}

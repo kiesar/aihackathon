@@ -90,6 +90,7 @@ export interface Case {
   application_data?: ApplicationFormData;
   evidence_requested_date?: string;
   decision_reason?: string;
+  evidence_submissions?: EvidenceSubmission[];
 }
 
 // ── Workflow ────────────────────────────────────────────────
@@ -128,6 +129,22 @@ export interface User {
   role: "caseworker" | "team_leader";
   team: string;
   display_name: string;
+}
+
+// ── Evidence ────────────────────────────────────────────────
+
+export interface ExtractedEvidenceField {
+  key: string;          // machine key, e.g. "document_date"
+  label: string;        // human label, e.g. "Document date"
+  value: string;        // extracted (or corrected) value
+  confidence: "high" | "medium" | "low";
+}
+
+export interface EvidenceSubmission {
+  submitted_at: string;
+  description: string;
+  files: Array<{ name: string; size: number; type: string }>;
+  extracted_fields: ExtractedEvidenceField[];
 }
 
 // ── AI Summary ──────────────────────────────────────────────

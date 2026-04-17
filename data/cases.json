@@ -409,7 +409,7 @@
   {
     "case_id": "DSA-2026-00007",
     "case_type": "dsa_application",
-    "status": "awaiting_evidence",
+    "status": "evidence_received",
     "applicant": {
       "name": "fouad k",
       "forenames": "fouad",
@@ -428,7 +428,7 @@
     },
     "assigned_to": "mbrown",
     "created_date": "2026-04-16T13:13:52.496Z",
-    "last_updated": "2026-04-16T13:37:59.409Z",
+    "last_updated": "2026-04-17T10:16:37.167Z",
     "timeline": [
       {
         "date": "2026-04-16T13:13:52.496Z",
@@ -440,6 +440,11 @@
         "event": "reassigned",
         "note": "Reassigned from jsmith to mbrown",
         "actor": "jsmith"
+      },
+      {
+        "date": "2026-04-17T10:16:37.167Z",
+        "event": "evidence_received",
+        "note": "Evidence uploaded by applicant: Diagnostic report. Files: Sample Diagnostic Report.docx"
       }
     ],
     "case_notes": "",
@@ -455,7 +460,58 @@
       "total_amount": 500,
       "declaration_confirmed": true,
       "submitted_at": "2026-04-16T13:13:52.496Z"
-    }
+    },
+    "evidence_submissions": [
+      {
+        "submitted_at": "2026-04-17T10:16:37.167Z",
+        "description": "Diagnostic report",
+        "files": [
+          {
+            "name": "Sample Diagnostic Report.docx",
+            "size": 13593,
+            "type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          }
+        ],
+        "extracted_fields": [
+          {
+            "key": "document_type",
+            "label": "Document type",
+            "value": "Diagnostic report",
+            "confidence": "high"
+          },
+          {
+            "key": "issuing_body",
+            "label": "Issuing organisation",
+            "value": "NHS Trust / GP Practice",
+            "confidence": "medium"
+          },
+          {
+            "key": "document_date",
+            "label": "Document date",
+            "value": "12 March 2026",
+            "confidence": "high"
+          },
+          {
+            "key": "patient_name",
+            "label": "Patient name",
+            "value": "As per application",
+            "confidence": "medium"
+          },
+          {
+            "key": "diagnosis",
+            "label": "Diagnosis / condition",
+            "value": "Specific Learning Difficulty (SpLD)",
+            "confidence": "medium"
+          },
+          {
+            "key": "recommendations",
+            "label": "Recommendations",
+            "value": "Assistive technology, extra time in examinations",
+            "confidence": "low"
+          }
+        ]
+      }
+    ]
   },
   {
     "case_id": "DSA-2026-00008",

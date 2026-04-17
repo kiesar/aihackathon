@@ -8,6 +8,7 @@ import type {
   WorkflowTransition,
   WorkflowStateName,
   AISummaryResponse,
+  EvidenceSubmission,
 } from "@/types";
 
 interface CaseDetailResponse {
@@ -37,6 +38,12 @@ const CASE_TYPE_DISPLAY: Record<string, string> = {
   allowance_review: "Allowance Review",
   compliance_check: "Compliance Check",
 };
+
+function formatFileSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
 
 function formatDate(iso: string): string {
   const d = new Date(iso);
@@ -252,7 +259,10 @@ export default function CaseDetailPage() {
                 <strong className="govuk-!-font-weight-bold">Required action:</strong> {requiredAction}
               </p>
               {evidenceFlag !== "none" && evidenceDaysOutstanding !== null && (
-                <div className="govuk-inset-text">
+                <div
+                  className="govuk-inset-text"
+                  style={evidenceDaysOutstanding > 30 ? { borderLeftColor: "#d4351c", backgroundColor: "#fde8e6" } : undefined}
+                >
                   {evidenceFlag === "escalation" ? (
                     <p className="govuk-body" style={{ color: "#d4351c" }}>
                       <strong>Escalation required:</strong> Evidence has been outstanding for {evidenceDaysOutstanding} days (exceeds 56-day threshold).
@@ -539,8 +549,84 @@ export default function CaseDetailPage() {
             )}
           </div>
 
-          {/* Sidebar — policy extracts */}
+          {/* Sidebar — evidence submissions + policy extracts */}
           <div className="govuk-grid-column-one-third">
+
+            {/* Evidence submissions */}
+            <section aria-labelledby="evidence-heading" style={{ marginBottom: "30px" }}>
+              <h2 className="govuk-heading-m" id="evidence-heading">Submitted evidence</h2>
+              {!caseRecord.evidence_submissions || caseRecord.evidence_submissions.length === 0 ? (
+                <p className="govuk-body govuk-hint">No evidence submitted yet.</p>
+              ) : (
+                caseRecord.evidence_submissions.map((submission: EvidenceSubmission, subIdx: number) => (
+                  <details key={subIdx} className="govuk-details" style={{ marginBottom: "12px" }}>
+                    <summary className="govuk-details__summary">
+                      <span className="govuk-details__summary-text">
+                        Submission {subIdx + 1} — {formatDateTime(submission.submitted_at)}
+                      </span>
+                    </summary>
+                    <div className="govuk-details__text">
+                      <p className="govuk-body">
+                        <strong className="govuk-!-font-weight-bold">Description:</strong>{" "}
+                        {submission.description}
+                      </p>
+
+                      {/* File list with preview links */}
+                      <h3 className="govuk-heading-s" style={{ marginBottom: "8px" }}>Files</h3>
+                      <ul className="govuk-list">
+                        {submission.files.map((file, fileIdx: number) => (
+                          <li key={fileIdx} style={{ marginBottom: "6px" }}>
+                            <span className="govuk-body">
+                              📎{" "}
+                              <a
+                                href={`/api/dashboard/cases/${caseRecord.case_id}/evidence/${subIdx}/${fileIdx}`}
+                                className="govuk-link"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {file.name}
+                              </a>{" "}
+                              <span className="govuk-hint" style={{ display: "inline" }}>
+                                ({formatFileSize(file.size)})
+                              </span>
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      {/* Extracted fields */}
+                      {submission.extracted_fields && submission.extracted_fields.length > 0 && (
+                        <>
+                          <h3 className="govuk-heading-s" style={{ marginBottom: "8px", marginTop: "12px" }}>
+                            Extracted information
+                            <strong className="govuk-tag govuk-tag--purple" style={{ fontSize: "12px", marginLeft: "8px" }}>AI-extracted</strong>
+                          </h3>
+                          <dl className="govuk-summary-list govuk-summary-list--no-border">
+                            {submission.extracted_fields.map((field) => (
+                              <div key={field.key} className="govuk-summary-list__row">
+                                <dt className="govuk-summary-list__key" style={{ fontSize: "14px", width: "45%" }}>
+                                  {field.label}
+                                </dt>
+                                <dd className="govuk-summary-list__value" style={{ fontSize: "14px" }}>
+                                  {field.value}
+                                  {field.confidence === "low" && (
+                                    <strong className="govuk-tag govuk-tag--yellow" style={{ fontSize: "11px", marginLeft: "6px" }}>
+                                      Unverified
+                                    </strong>
+                                  )}
+                                </dd>
+                              </div>
+                            ))}
+                          </dl>
+                        </>
+                      )}
+                    </div>
+                  </details>
+                ))
+              )}
+            </section>
+
+            {/* Policy extracts */}
             <section aria-labelledby="policy-heading">
               <h2 className="govuk-heading-m" id="policy-heading">Policy extracts</h2>
 
