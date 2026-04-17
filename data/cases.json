@@ -428,7 +428,7 @@
     },
     "assigned_to": "mbrown",
     "created_date": "2026-04-16T13:13:52.496Z",
-    "last_updated": "2026-04-17T10:16:37.167Z",
+    "last_updated": "2026-04-17T11:06:54.329Z",
     "timeline": [
       {
         "date": "2026-04-16T13:13:52.496Z",
@@ -445,6 +445,44 @@
         "date": "2026-04-17T10:16:37.167Z",
         "event": "evidence_received",
         "note": "Evidence uploaded by applicant: Diagnostic report. Files: Sample Diagnostic Report.docx"
+      },
+      {
+        "date": "2026-04-17T10:28:45.989Z",
+        "event": "evidence_requested",
+        "note": "need proof of address",
+        "actor": "mbrown"
+      },
+      {
+        "date": "2026-04-17T10:28:59.394Z",
+        "event": "state_transition",
+        "note": "Applicant viewed evidence request — status updated to Awaiting evidence."
+      },
+      {
+        "date": "2026-04-17T10:34:17.111Z",
+        "event": "evidence_received",
+        "note": "Evidence uploaded by applicant: proof of address council tax. Files: Council tax.pdf"
+      },
+      {
+        "date": "2026-04-17T10:35:28.074Z",
+        "event": "state_transition",
+        "note": "Need DSA Managerial review",
+        "actor": "mbrown"
+      },
+      {
+        "date": "2026-04-17T11:05:49.142Z",
+        "event": "evidence_requested",
+        "note": "can you send the full version of your COucil Tax",
+        "actor": "mbrown"
+      },
+      {
+        "date": "2026-04-17T11:06:27.128Z",
+        "event": "state_transition",
+        "note": "Applicant viewed evidence request — status updated to Awaiting evidence."
+      },
+      {
+        "date": "2026-04-17T11:06:54.329Z",
+        "event": "evidence_received",
+        "note": "Evidence uploaded by applicant: full version of COuncil Tax. Files: Council tax.pdf"
       }
     ],
     "case_notes": "",
@@ -510,8 +548,95 @@
             "confidence": "low"
           }
         ]
+      },
+      {
+        "submitted_at": "2026-04-17T10:34:17.111Z",
+        "description": "proof of address council tax",
+        "files": [
+          {
+            "name": "Council tax.pdf",
+            "size": 18575,
+            "type": "application/pdf"
+          }
+        ],
+        "extracted_fields": [
+          {
+            "key": "document_type",
+            "label": "Document type",
+            "value": "Proof of address",
+            "confidence": "high"
+          },
+          {
+            "key": "issuing_body",
+            "label": "Issuing organisation",
+            "value": "Local Council / Utility provider",
+            "confidence": "medium"
+          },
+          {
+            "key": "document_date",
+            "label": "Document date",
+            "value": "15 February 2026",
+            "confidence": "high"
+          },
+          {
+            "key": "address_line1",
+            "label": "Address line 1",
+            "value": "As per application",
+            "confidence": "medium"
+          },
+          {
+            "key": "postcode",
+            "label": "Postcode",
+            "value": "As per application",
+            "confidence": "medium"
+          }
+        ]
+      },
+      {
+        "submitted_at": "2026-04-17T11:06:54.329Z",
+        "description": "full version of COuncil Tax",
+        "files": [
+          {
+            "name": "Council tax.pdf",
+            "size": 18575,
+            "type": "application/pdf"
+          }
+        ],
+        "extracted_fields": [
+          {
+            "key": "document_type",
+            "label": "Document type",
+            "value": "Proof of address",
+            "confidence": "high"
+          },
+          {
+            "key": "issuing_body",
+            "label": "Issuing organisation",
+            "value": "Local Council / Utility provider",
+            "confidence": "medium"
+          },
+          {
+            "key": "document_date",
+            "label": "Document date",
+            "value": "15 February 2026",
+            "confidence": "high"
+          },
+          {
+            "key": "address_line1",
+            "label": "Address line 1",
+            "value": "As per application",
+            "confidence": "medium"
+          },
+          {
+            "key": "postcode",
+            "label": "Postcode",
+            "value": "As per application",
+            "confidence": "medium"
+          }
+        ]
       }
-    ]
+    ],
+    "evidence_requested_date": "2026-04-17T11:05:49.142Z"
   },
   {
     "case_id": "DSA-2026-00008",

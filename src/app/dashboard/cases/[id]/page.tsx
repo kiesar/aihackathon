@@ -558,11 +558,14 @@ export default function CaseDetailPage() {
               {!caseRecord.evidence_submissions || caseRecord.evidence_submissions.length === 0 ? (
                 <p className="govuk-body govuk-hint">No evidence submitted yet.</p>
               ) : (
-                caseRecord.evidence_submissions.map((submission: EvidenceSubmission, subIdx: number) => (
-                  <details key={subIdx} className="govuk-details" style={{ marginBottom: "12px" }}>
+                [...caseRecord.evidence_submissions]
+                  .map((submission: EvidenceSubmission, originalIdx: number) => ({ submission, originalIdx }))
+                  .reverse()
+                  .map(({ submission, originalIdx }, displayIdx: number) => (
+                  <details key={originalIdx} className="govuk-details" style={{ marginBottom: "12px" }}>
                     <summary className="govuk-details__summary">
                       <span className="govuk-details__summary-text">
-                        Submission {subIdx + 1} — {formatDateTime(submission.submitted_at)}
+                        Submission {caseRecord.evidence_submissions!.length - displayIdx} — {formatDateTime(submission.submitted_at)}
                       </span>
                     </summary>
                     <div className="govuk-details__text">
@@ -579,7 +582,7 @@ export default function CaseDetailPage() {
                             <span className="govuk-body">
                               📎{" "}
                               <a
-                                href={`/api/dashboard/cases/${caseRecord.case_id}/evidence/${subIdx}/${fileIdx}`}
+                                href={`/api/dashboard/cases/${caseRecord.case_id}/evidence/${originalIdx}/${fileIdx}`}
                                 className="govuk-link"
                                 target="_blank"
                                 rel="noopener noreferrer"
