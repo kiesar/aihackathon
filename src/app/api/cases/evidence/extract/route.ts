@@ -1,136 +1,91 @@
 import { NextRequest, NextResponse } from "next/server";
-import type { ExtractedEvidenceField } from "@/types";
-
-interface ExtractRequest {
-  fileName: string;
-  fileType: string;
-  description: string;
-}
+import {
+  extractTextFromPdf,
+  extractTextFromImage,
+  parseFieldsFromText,
+} from "@/lib/ocr-extract";
 
 /**
- * Mocked AI extraction endpoint.
+ * Real-time evidence extraction endpoint.
  *
- * In production this would send the file content to an LLM or OCR service.
- * The mock returns realistic pre-written fields keyed by description keywords
- * and file type, so the UI can demonstrate the full review-and-correct flow.
+ * Accepts multipart/form-data with:
+ *   - file      : the uploaded file (Blob)
+ *   - fileName  : original file name
+ *   - fileType  : MIME type
+ *   - description: user-provided description
  *
- * The interface matches what a real extraction service would return, so
- * swapping the mock for a real call requires only changing this handler.
+ * Extraction strategy:
+ *   - PDF  → pdf-parse (text layer extraction, fast and accurate for digital PDFs)
+ *   - Image (JPG/PNG) → tesseract.js OCR
+ *   - Other → returns low-confidence placeholder fields
+ *
+ * The interface is identical to the previous mock so no UI changes are needed.
  */
 export async function POST(request: NextRequest) {
   try {
-    let body: ExtractRequest;
+    let formData: FormData;
     try {
-      body = await request.json();
+      formData = await request.formData();
     } catch {
       return NextResponse.json(
-        { error: "Invalid JSON in request body" },
+        { error: "Expected multipart/form-data" },
         { status: 400 }
       );
     }
 
-    const { fileName = "", fileType = "", description = "" } = body;
-    const desc = description.toLowerCase();
-    const name = fileName.toLowerCase();
+    const file = formData.get("file") as Blob | null;
+    const fileName = (formData.get("fileName") as string) ?? "";
+    const fileType = (formData.get("fileType") as string) ?? "";
+    const description = (formData.get("description") as string) ?? "";
 
-    // Simulate a short processing delay
-    await new Promise((r) => setTimeout(r, 800));
-
-    let fields: ExtractedEvidenceField[] = [];
-
-    // ── Diagnostic / medical report ──────────────────────────
-    if (
-      desc.includes("diagnostic") ||
-      desc.includes("medical") ||
-      desc.includes("gp") ||
-      desc.includes("disability") ||
-      name.includes("diagnostic") ||
-      name.includes("medical")
-    ) {
-      fields = [
-        { key: "document_type",    label: "Document type",      value: "Diagnostic report",          confidence: "high" },
-        { key: "issuing_body",     label: "Issuing organisation",value: "NHS Trust / GP Practice",    confidence: "medium" },
-        { key: "document_date",    label: "Document date",      value: "12 March 2026",               confidence: "high" },
-        { key: "patient_name",     label: "Patient name",       value: "As per application",          confidence: "medium" },
-        { key: "diagnosis",        label: "Diagnosis / condition",value: "Specific Learning Difficulty (SpLD)", confidence: "medium" },
-        { key: "recommendations",  label: "Recommendations",    value: "Assistive technology, extra time in examinations", confidence: "low" },
-      ];
+    if (!file) {
+      return NextResponse.json(
+        { error: "No file provided" },
+        { status: 400 }
+      );
     }
 
-    // ── Supplier quote / invoice ─────────────────────────────
-    else if (
-      desc.includes("quote") ||
-      desc.includes("invoice") ||
-      desc.includes("supplier") ||
-      desc.includes("cost") ||
-      name.includes("quote") ||
-      name.includes("invoice")
-    ) {
-      fields = [
-        { key: "document_type",    label: "Document type",      value: "Supplier quote",              confidence: "high" },
-        { key: "supplier_name",    label: "Supplier name",      value: "Assistive Technology Ltd",    confidence: "high" },
-        { key: "document_date",    label: "Document date",      value: "10 April 2026",               confidence: "high" },
-        { key: "item_description", label: "Item description",   value: "Screen reader software (annual licence)", confidence: "high" },
-        { key: "amount",           label: "Amount (£)",         value: "£349.00",                     confidence: "high" },
-        { key: "vat",              label: "VAT",                value: "£69.80",                      confidence: "medium" },
-        { key: "total",            label: "Total (inc. VAT)",   value: "£418.80",                     confidence: "high" },
-        { key: "quote_reference",  label: "Quote reference",    value: "QT-2026-00441",               confidence: "medium" },
-      ];
-    }
+    // Convert Blob → Node Buffer
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
 
-    // ── Bank statement / proof of income ────────────────────
-    else if (
-      desc.includes("bank") ||
-      desc.includes("income") ||
-      desc.includes("statement") ||
-      name.includes("bank") ||
-      name.includes("statement")
-    ) {
-      fields = [
-        { key: "document_type",    label: "Document type",      value: "Bank statement",              confidence: "high" },
-        { key: "bank_name",        label: "Bank / institution", value: "Barclays Bank PLC",           confidence: "high" },
-        { key: "account_holder",   label: "Account holder",     value: "As per application",          confidence: "medium" },
-        { key: "statement_period", label: "Statement period",   value: "1 January 2026 – 31 March 2026", confidence: "high" },
-        { key: "closing_balance",  label: "Closing balance",    value: "£1,240.55",                   confidence: "medium" },
-      ];
-    }
+    let rawText = "";
+    let extractionMethod = "none";
 
-    // ── Proof of address ────────────────────────────────────
-    else if (
-      desc.includes("address") ||
-      desc.includes("utility") ||
-      desc.includes("council") ||
-      name.includes("address")
-    ) {
-      fields = [
-        { key: "document_type",    label: "Document type",      value: "Proof of address",            confidence: "high" },
-        { key: "issuing_body",     label: "Issuing organisation",value: "Local Council / Utility provider", confidence: "medium" },
-        { key: "document_date",    label: "Document date",      value: "15 February 2026",            confidence: "high" },
-        { key: "address_line1",    label: "Address line 1",     value: "As per application",          confidence: "medium" },
-        { key: "postcode",         label: "Postcode",           value: "As per application",          confidence: "medium" },
-      ];
-    }
+    const isPdf =
+      fileType === "application/pdf" ||
+      fileName.toLowerCase().endsWith(".pdf");
 
-    // ── Generic fallback ─────────────────────────────────────
-    else {
-      const isPdf = fileType === "application/pdf" || name.endsWith(".pdf");
-      fields = [
-        { key: "document_type",    label: "Document type",      value: isPdf ? "PDF document" : "Document", confidence: "medium" },
-        { key: "document_date",    label: "Document date",      value: "Unable to extract — please enter manually", confidence: "low" },
-        { key: "issuing_body",     label: "Issuing organisation",value: "Unable to extract — please enter manually", confidence: "low" },
-        { key: "reference_number", label: "Reference number",   value: "Unable to extract — please enter manually", confidence: "low" },
-      ];
+    const isImage =
+      fileType.startsWith("image/") ||
+      /\.(jpe?g|png|bmp|tiff?|webp)$/i.test(fileName);
+
+    if (isPdf) {
+      rawText = await extractTextFromPdf(buffer);
+      extractionMethod = "pdf-parse";
+    } else if (isImage) {
+      rawText = await extractTextFromImage(buffer, fileType);
+      extractionMethod = "tesseract";
     }
+    // DOC/DOCX: no open-source pure-JS parser with reliable output;
+    // fall through to placeholder fields with low confidence.
+
+    const fields = parseFieldsFromText(rawText, fileName, description);
 
     return NextResponse.json({
       fields,
       isAiExtracted: true,
+      extractionMethod,
+      rawTextLength: rawText.length,
       extractedAt: new Date().toISOString(),
     });
   } catch (error) {
     console.error("Evidence extraction error:", error);
     return NextResponse.json(
-      { error: "Sorry, there is a problem extracting information from the file. You can still submit manually." },
+      {
+        error:
+          "Sorry, there is a problem extracting information from the file. You can still review and submit manually.",
+      },
       { status: 500 }
     );
   }

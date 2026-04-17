@@ -428,7 +428,7 @@
     },
     "assigned_to": "mbrown",
     "created_date": "2026-04-16T13:13:52.496Z",
-    "last_updated": "2026-04-17T11:06:54.329Z",
+    "last_updated": "2026-04-17T11:36:00.904Z",
     "timeline": [
       {
         "date": "2026-04-16T13:13:52.496Z",
@@ -483,6 +483,22 @@
         "date": "2026-04-17T11:06:54.329Z",
         "event": "evidence_received",
         "note": "Evidence uploaded by applicant: full version of COuncil Tax. Files: Council tax.pdf"
+      },
+      {
+        "date": "2026-04-17T11:24:01.799Z",
+        "event": "evidence_requested",
+        "note": "please upload again, we have a new tool to make your journey easier. Thanks for being our valuable user volunteered for this trial",
+        "actor": "mbrown"
+      },
+      {
+        "date": "2026-04-17T11:24:18.565Z",
+        "event": "state_transition",
+        "note": "Applicant viewed evidence request — status updated to Awaiting evidence."
+      },
+      {
+        "date": "2026-04-17T11:36:00.904Z",
+        "event": "evidence_received",
+        "note": "Evidence uploaded by applicant: new council taxfile. Files: Council tax.pdf"
       }
     ],
     "case_notes": "",
@@ -634,9 +650,58 @@
             "confidence": "medium"
           }
         ]
+      },
+      {
+        "submitted_at": "2026-04-17T11:36:00.904Z",
+        "description": "new council taxfile",
+        "files": [
+          {
+            "name": "Council tax.pdf",
+            "size": 19411,
+            "type": "application/pdf"
+          }
+        ],
+        "extracted_fields": [
+          {
+            "key": "document_type",
+            "label": "Document type",
+            "value": "Council Tax",
+            "confidence": "low"
+          },
+          {
+            "key": "document_date",
+            "label": "Document date",
+            "value": "12 March 2026",
+            "confidence": "low"
+          },
+          {
+            "key": "issuing_body",
+            "label": "Issuing organisation",
+            "value": "Glasgow City COuncil",
+            "confidence": "low"
+          },
+          {
+            "key": "person_name",
+            "label": "Name on document",
+            "value": "Council Tax",
+            "confidence": "low"
+          },
+          {
+            "key": "address_line1",
+            "label": "Address line 1",
+            "value": "10 Clyde Place",
+            "confidence": "low"
+          },
+          {
+            "key": "postcode",
+            "label": "Postcode",
+            "value": "G411PJ",
+            "confidence": "low"
+          }
+        ]
       }
     ],
-    "evidence_requested_date": "2026-04-17T11:05:49.142Z"
+    "evidence_requested_date": "2026-04-17T11:24:01.799Z"
   },
   {
     "case_id": "DSA-2026-00008",

@@ -10,6 +10,7 @@ interface SelectedFile {
   size: number;
   type: string;
   previewUrl: string | null; // object URL for images
+  rawFile: File;             // kept for sending to extraction API
 }
 
 interface ExtractedField {
@@ -17,9 +18,124 @@ interface ExtractedField {
   label: string;
   value: string;
   confidence: "high" | "medium" | "low";
+  required: boolean;
 }
 
 type Step = "upload" | "review" | "success";
+
+// ── Expected field templates per document type ───────────────
+// These define what information is REQUIRED from each evidence type.
+// Extracted values are merged in; missing required fields stay blank
+// so the student knows exactly what to complete.
+
+interface FieldTemplate {
+  key: string;
+  label: string;
+  required: boolean;
+  hint?: string;
+}
+
+const FIELD_TEMPLATES: Record<string, FieldTemplate[]> = {
+  diagnostic: [
+    { key: "document_type",   label: "Document type",          required: true },
+    { key: "document_date",   label: "Document date",          required: true,  hint: "e.g. 12 March 2026" },
+    { key: "issuing_body",    label: "Issuing organisation",   required: true,  hint: "e.g. NHS Trust, GP Practice, Assessment Centre" },
+    { key: "person_name",     label: "Name on document",       required: true,  hint: "Must match your application name" },
+    { key: "diagnosis",       label: "Diagnosis / condition",  required: true,  hint: "e.g. Dyslexia, ADHD, SpLD" },
+    { key: "reference_number",label: "Reference number",       required: false, hint: "If shown on the document" },
+    { key: "recommendations", label: "Recommendations",        required: false, hint: "e.g. assistive technology, extra time" },
+  ],
+  invoice: [
+    { key: "document_type",   label: "Document type",          required: true },
+    { key: "document_date",   label: "Invoice date",           required: true,  hint: "e.g. 10 April 2026" },
+    { key: "issuing_body",    label: "Supplier name",          required: true },
+    { key: "reference_number",label: "Invoice number",         required: true,  hint: "e.g. INV-2026-00441" },
+    { key: "item_description",label: "Item / service description", required: true },
+    { key: "amount",          label: "Amount (exc. VAT) £",    required: true,  hint: "e.g. 349.00" },
+    { key: "vat",             label: "VAT £",                  required: false, hint: "Leave blank if VAT exempt" },
+    { key: "total",           label: "Total (inc. VAT) £",     required: true,  hint: "e.g. 418.80" },
+  ],
+  quote: [
+    { key: "document_type",   label: "Document type",          required: true },
+    { key: "document_date",   label: "Quote date",             required: true,  hint: "e.g. 10 April 2026" },
+    { key: "issuing_body",    label: "Supplier name",          required: true },
+    { key: "reference_number",label: "Quote reference",        required: false, hint: "e.g. QT-2026-00441" },
+    { key: "item_description",label: "Item / service description", required: true },
+    { key: "amount",          label: "Amount (exc. VAT) £",    required: true,  hint: "e.g. 349.00" },
+    { key: "vat",             label: "VAT £",                  required: false, hint: "Leave blank if VAT exempt" },
+    { key: "total",           label: "Total (inc. VAT) £",     required: true,  hint: "e.g. 418.80" },
+  ],
+  bank: [
+    { key: "document_type",   label: "Document type",          required: true },
+    { key: "issuing_body",    label: "Bank / institution",     required: true },
+    { key: "person_name",     label: "Account holder name",    required: true },
+    { key: "statement_period",label: "Statement period",       required: true,  hint: "e.g. 1 January 2026 – 31 March 2026" },
+    { key: "sort_code",       label: "Sort code",              required: false, hint: "e.g. 20-00-00" },
+    { key: "account_number",  label: "Account number",         required: false },
+    { key: "closing_balance", label: "Closing balance £",      required: true,  hint: "e.g. 1240.55" },
+  ],
+  address: [
+    { key: "document_type",   label: "Document type",          required: true },
+    { key: "document_date",   label: "Document date",          required: true,  hint: "Must be within the last 3 months" },
+    { key: "issuing_body",    label: "Issuing organisation",   required: true,  hint: "e.g. Local Council, utility provider" },
+    { key: "person_name",     label: "Name on document",       required: true },
+    { key: "address_line1",   label: "Address line 1",         required: true },
+    { key: "postcode",        label: "Postcode",               required: true },
+  ],
+  default: [
+    { key: "document_type",   label: "Document type",          required: true },
+    { key: "document_date",   label: "Document date",          required: true,  hint: "e.g. 12 March 2026" },
+    { key: "issuing_body",    label: "Issuing organisation",   required: true },
+    { key: "reference_number",label: "Reference number",       required: false, hint: "If shown on the document" },
+    { key: "person_name",     label: "Name on document",       required: false },
+  ],
+};
+
+/** Pick the right template based on description and file name keywords */
+function pickTemplate(description: string, fileName: string): FieldTemplate[] {
+  const t = (description + " " + fileName).toLowerCase();
+  if (t.includes("diagnostic") || t.includes("assessment") || t.includes("medical") || t.includes("gp") || t.includes("disability") || t.includes("dyslexia") || t.includes("adhd")) {
+    return FIELD_TEMPLATES.diagnostic;
+  }
+  if (t.includes("invoice") || t.includes("inv-")) return FIELD_TEMPLATES.invoice;
+  if (t.includes("quote") || t.includes("quotation") || t.includes("qt-")) return FIELD_TEMPLATES.quote;
+  if (t.includes("bank") || t.includes("statement") || t.includes("income")) return FIELD_TEMPLATES.bank;
+  if (t.includes("address") || t.includes("utility") || t.includes("council")) return FIELD_TEMPLATES.address;
+  return FIELD_TEMPLATES.default;
+}
+
+/**
+ * Merge extracted fields into the template.
+ * Template fields that were extracted get the extracted value + confidence.
+ * Template fields not extracted stay blank with low confidence.
+ * Extra extracted fields not in the template are appended at the end.
+ */
+function mergeFieldsWithTemplate(
+  template: FieldTemplate[],
+  extracted: ExtractedField[]
+): ExtractedField[] {
+  const extractedMap = new Map(extracted.map((f) => [f.key, f]));
+
+  const merged: ExtractedField[] = template.map((t) => {
+    const found = extractedMap.get(t.key);
+    return {
+      key: t.key,
+      label: t.label,
+      value: found?.value ?? "",
+      confidence: found?.confidence ?? "low",
+      required: t.required,
+    };
+  });
+
+  // Append any extra extracted fields not covered by the template
+  for (const ef of extracted) {
+    if (!template.find((t) => t.key === ef.key)) {
+      merged.push({ ...ef, required: false });
+    }
+  }
+
+  return merged;
+}
 
 // ── Helpers ──────────────────────────────────────────────────
 
@@ -81,6 +197,7 @@ function EvidenceContent() {
         size: f.size,
         type: f.type,
         previewUrl: isImage ? URL.createObjectURL(f) : null,
+        rawFile: f,
       });
     }
     setFiles((prev) => [...prev, ...newFiles]);
@@ -115,30 +232,44 @@ function EvidenceContent() {
     setExtracting(true);
     setExtractError("");
 
+    // Determine the expected field template immediately from description + filename
+    const primary = files[0];
+    const template = pickTemplate(description, primary.name);
+
     try {
-      // Extract from the first file (primary document)
-      const primary = files[0];
+      // Send the primary file as multipart/form-data for real OCR/PDF extraction
+      const formData = new FormData();
+      formData.append("file", primary.rawFile);
+      formData.append("fileName", primary.name);
+      formData.append("fileType", primary.type);
+      formData.append("description", description.trim());
+
       const res = await fetch("/api/cases/evidence/extract", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          fileName: primary.name,
-          fileType: primary.type,
-          description: description.trim(),
-        }),
+        body: formData,
       });
 
       if (res.ok) {
         const data = await res.json();
-        setExtractedFields(data.fields || []);
+        const rawExtracted: ExtractedField[] = (data.fields || []).map(
+          (f: ExtractedField) => ({ ...f, required: false })
+        );
+        // Merge extracted values into the template so all expected fields are shown
+        setExtractedFields(mergeFieldsWithTemplate(template, rawExtracted));
+        setExtractError("");
       } else {
-        // Non-fatal — show empty fields so user can enter manually
-        setExtractError("We could not automatically extract information from your file. Please review and complete the fields below.");
-        setExtractedFields([]);
+        // Extraction failed — show the template with all fields blank so the
+        // student knows exactly what information is needed
+        setExtractError(
+          "We could not automatically extract information from your file. Please complete the required fields below."
+        );
+        setExtractedFields(mergeFieldsWithTemplate(template, []));
       }
     } catch {
-      setExtractError("We could not automatically extract information from your file. Please review and complete the fields below.");
-      setExtractedFields([]);
+      setExtractError(
+        "We could not automatically extract information from your file. Please complete the required fields below."
+      );
+      setExtractedFields(mergeFieldsWithTemplate(template, []));
     } finally {
       setExtracting(false);
       setStep("review");
@@ -155,12 +286,25 @@ function EvidenceContent() {
 
   async function handleSubmit() {
     const errors: string[] = [];
-    // Validate any low-confidence fields still have placeholder text
+
+    // Check all required fields have a value
+    const missingRequired = extractedFields.filter(
+      (f) => f.required && (!f.value || f.value.trim().length === 0)
+    );
+    if (missingRequired.length > 0) {
+      errors.push(
+        `Please complete the following required fields: ${missingRequired.map((f) => f.label).join(", ")}`
+      );
+    }
+
+    // Warn about low-confidence fields still showing placeholder text
     const unverified = extractedFields.filter(
-      (f) => f.confidence === "low" && f.value.toLowerCase().includes("please enter")
+      (f) => f.confidence === "low" && f.value.toLowerCase().includes("unable to extract")
     );
     if (unverified.length > 0) {
-      errors.push(`Please complete the following fields: ${unverified.map((f) => f.label).join(", ")}`);
+      errors.push(
+        `Please enter values for: ${unverified.map((f) => f.label).join(", ")}`
+      );
     }
 
     if (errors.length > 0) {
@@ -319,36 +463,77 @@ function EvidenceContent() {
               <h2 className="govuk-heading-m">Extracted information</h2>
               <p className="govuk-body">
                 Check each field. Fields marked <strong className="govuk-tag govuk-tag--red" style={{ fontSize: "12px" }}>Low confidence</strong> need your attention.
+                {" "}Fields marked <span style={{ color: "#d4351c" }}>*</span> are required.
               </p>
+
+              {extractedFields.filter((f) => f.required && (!f.value || f.value.trim().length === 0)).length > 0 && (
+                <div className="govuk-warning-text">
+                  <span className="govuk-warning-text__icon" aria-hidden="true">!</span>
+                  <strong className="govuk-warning-text__text">
+                    <span className="govuk-visually-hidden">Warning</span>
+                    {extractedFields.filter((f) => f.required && (!f.value || f.value.trim().length === 0)).length} required{" "}
+                    {extractedFields.filter((f) => f.required && (!f.value || f.value.trim().length === 0)).length === 1 ? "field" : "fields"}{" "}
+                    could not be extracted and must be completed before submitting.
+                  </strong>
+                </div>
+              )}
 
               {extractedFields.length === 0 && !extractError && (
                 <p className="govuk-body govuk-hint">No fields were extracted. You can submit without extracted information.</p>
               )}
 
-              {extractedFields.map((field) => (
-                <div key={field.key} className="govuk-form-group" style={{ marginBottom: "16px" }}>
+              {extractedFields.map((field) => {
+                const isMissing = field.required && (!field.value || field.value.trim().length === 0);
+                return (
+                <div
+                  key={field.key}
+                  className={`govuk-form-group${isMissing ? " govuk-form-group--error" : ""}`}
+                  style={{ marginBottom: "16px" }}
+                >
                   <label className="govuk-label" htmlFor={`field-${field.key}`}>
                     {field.label}
-                    {confidenceBadge(field.confidence)}
+                    {field.required && (
+                      <span style={{ color: "#d4351c", marginLeft: "4px" }} aria-hidden="true">*</span>
+                    )}
+                    {field.value && confidenceBadge(field.confidence)}
                   </label>
+                  {field.required && isMissing && (
+                    <p id={`field-${field.key}-error`} className="govuk-error-message">
+                      <span className="govuk-visually-hidden">Error:</span> {field.label} is required
+                    </p>
+                  )}
+                  {FIELD_TEMPLATES.default.find(() => true) && (() => {
+                    // Find hint from any template
+                    const allTemplates = Object.values(FIELD_TEMPLATES).flat();
+                    const hint = allTemplates.find((t) => t.key === field.key)?.hint;
+                    return hint ? (
+                      <div id={`field-${field.key}-hint`} className="govuk-hint" style={{ fontSize: "14px" }}>
+                        {hint}
+                      </div>
+                    ) : null;
+                  })()}
                   <input
-                    className="govuk-input"
+                    className={`govuk-input${isMissing ? " govuk-input--error" : ""}`}
                     id={`field-${field.key}`}
                     name={field.key}
                     type="text"
                     value={field.value}
                     onChange={(e) => handleFieldChange(field.key, e.target.value)}
-                    aria-describedby={`field-${field.key}-hint`}
+                    aria-describedby={`field-${field.key}-hint${isMissing ? ` field-${field.key}-error` : ""}`}
+                    required={field.required}
                   />
-                  <div id={`field-${field.key}-hint`} className="govuk-hint" style={{ fontSize: "14px", marginTop: "4px" }}>
-                    {field.confidence === "low"
-                      ? "We could not extract this with confidence — please verify or enter manually."
-                      : field.confidence === "medium"
-                      ? "Extracted with medium confidence — please verify."
-                      : "Extracted with high confidence."}
-                  </div>
+                  {!isMissing && (
+                    <div className="govuk-hint" style={{ fontSize: "13px", marginTop: "4px" }}>
+                      {field.confidence === "low"
+                        ? "Not extracted — please enter manually."
+                        : field.confidence === "medium"
+                        ? "Extracted with medium confidence — please verify."
+                        : "Extracted with high confidence."}
+                    </div>
+                  )}
                 </div>
-              ))}
+                );
+              })}
 
               <div style={{ marginTop: "24px", display: "flex", gap: "12px", flexWrap: "wrap" }}>
                 <button
