@@ -192,11 +192,14 @@ function EvidenceContent() {
         return;
       }
       const isImage = f.type.startsWith("image/");
+      const isPdf = f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf");
+      // Generate object URL for images and PDFs so we can preview them immediately
+      const previewUrl = (isImage || isPdf) ? URL.createObjectURL(f) : null;
       newFiles.push({
         name: f.name,
         size: f.size,
         type: f.type,
-        previewUrl: isImage ? URL.createObjectURL(f) : null,
+        previewUrl,
         rawFile: f,
       });
     }
@@ -614,7 +617,7 @@ function EvidenceContent() {
             Select files
           </label>
           <div className="govuk-hint" id="file-upload-hint">
-            You can select multiple files. Images will show a preview on the next screen.
+            You can select multiple files. Images and PDFs will show a preview below.
           </div>
           <input
             className="govuk-file-upload"
@@ -629,37 +632,93 @@ function EvidenceContent() {
           />
         </div>
 
-        {/* Selected files list */}
+        {/* File preview cards */}
         {files.length > 0 && (
-          <div style={{ marginBottom: "20px" }}>
-            <h2 className="govuk-heading-s">Selected files ({files.length})</h2>
-            <table className="govuk-table">
-              <thead className="govuk-table__head">
-                <tr className="govuk-table__row">
-                  <th scope="col" className="govuk-table__header">File name</th>
-                  <th scope="col" className="govuk-table__header">Size</th>
-                  <th scope="col" className="govuk-table__header">Action</th>
-                </tr>
-              </thead>
-              <tbody className="govuk-table__body">
-                {files.map((f, i) => (
-                  <tr key={i} className="govuk-table__row">
-                    <td className="govuk-table__cell">{f.name}</td>
-                    <td className="govuk-table__cell">{formatFileSize(f.size)}</td>
-                    <td className="govuk-table__cell">
+          <div style={{ marginBottom: "24px" }}>
+            <h2 className="govuk-heading-s">
+              Selected files ({files.length})
+            </h2>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "16px" }}>
+              {files.map((f, i) => {
+                const isImage = f.type.startsWith("image/");
+                const isPdf = f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf");
+                return (
+                  <div
+                    key={i}
+                    style={{
+                      border: "2px solid #b1b4b6",
+                      borderRadius: "4px",
+                      width: "220px",
+                      overflow: "hidden",
+                      position: "relative",
+                      background: "#f3f2f1",
+                    }}
+                  >
+                    {/* Preview area */}
+                    <div style={{ height: "180px", overflow: "hidden", background: "#f3f2f1", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      {isImage && f.previewUrl ? (
+                        <img
+                          src={f.previewUrl}
+                          alt={`Preview of ${f.name}`}
+                          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        />
+                      ) : isPdf && f.previewUrl ? (
+                        <iframe
+                          src={f.previewUrl}
+                          title={`Preview of ${f.name}`}
+                          style={{ width: "100%", height: "180px", border: "none" }}
+                          aria-label={`PDF preview of ${f.name}`}
+                        />
+                      ) : (
+                        <div style={{ textAlign: "center", padding: "16px" }}>
+                          <span style={{ fontSize: "40px" }}>📎</span>
+                          <p className="govuk-body-s govuk-hint" style={{ marginTop: "8px", marginBottom: 0 }}>
+                            No preview available
+                          </p>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* File info footer */}
+                    <div style={{ padding: "8px 10px", borderTop: "1px solid #b1b4b6", background: "#ffffff" }}>
+                      <p
+                        className="govuk-body-s"
+                        style={{
+                          marginBottom: "2px",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                          fontWeight: "bold",
+                          fontSize: "13px",
+                        }}
+                        title={f.name}
+                      >
+                        {f.name}
+                      </p>
+                      <p className="govuk-hint" style={{ fontSize: "12px", marginBottom: "6px" }}>
+                        {formatFileSize(f.size)}
+                      </p>
                       <button
                         type="button"
                         className="govuk-link"
-                        style={{ border: "none", background: "none", cursor: "pointer", color: "#d4351c", textDecoration: "underline" }}
+                        style={{
+                          border: "none",
+                          background: "none",
+                          cursor: "pointer",
+                          color: "#d4351c",
+                          textDecoration: "underline",
+                          fontSize: "13px",
+                          padding: 0,
+                        }}
                         onClick={() => removeFile(i)}
                       >
                         Remove
                       </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
 

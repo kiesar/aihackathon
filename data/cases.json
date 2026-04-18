@@ -286,7 +286,7 @@
   {
     "case_id": "DSA-2026-00005",
     "case_type": "dsa_application",
-    "status": "awaiting_evidence",
+    "status": "evidence_received",
     "applicant": {
       "name": "Emma Roberts",
       "forenames": "Emma",
@@ -306,7 +306,7 @@
     },
     "assigned_to": "mbrown",
     "created_date": "2025-12-01T08:00:00.000Z",
-    "last_updated": "2025-12-03T10:00:00.000Z",
+    "last_updated": "2026-04-18T10:02:20.403Z",
     "timeline": [
       {
         "date": "2025-12-01T08:00:00.000Z",
@@ -318,6 +318,11 @@
         "event": "evidence_requested",
         "note": "Requested medical evidence and supplier quotes",
         "actor": "mbrown"
+      },
+      {
+        "date": "2026-04-18T10:02:20.403Z",
+        "event": "evidence_received",
+        "note": "Evidence uploaded by applicant: council Tax. Files: Council tax.pdf"
       }
     ],
     "case_notes": "Applicant has not responded to evidence request. May need escalation soon.",
@@ -340,7 +345,58 @@
       "declaration_confirmed": true,
       "submitted_at": "2025-12-01T08:00:00.000Z"
     },
-    "evidence_requested_date": "2025-12-03T10:00:00.000Z"
+    "evidence_requested_date": "2025-12-03T10:00:00.000Z",
+    "evidence_submissions": [
+      {
+        "submitted_at": "2026-04-18T10:02:20.403Z",
+        "description": "council Tax",
+        "files": [
+          {
+            "name": "Council tax.pdf",
+            "size": 21031,
+            "type": "application/pdf"
+          }
+        ],
+        "extracted_fields": [
+          {
+            "key": "document_type",
+            "label": "Document type",
+            "value": "Council Tax",
+            "confidence": "low"
+          },
+          {
+            "key": "document_date",
+            "label": "Document date",
+            "value": "16/03/2025",
+            "confidence": "low"
+          },
+          {
+            "key": "issuing_body",
+            "label": "Issuing organisation",
+            "value": "Glasgow City Council",
+            "confidence": "low"
+          },
+          {
+            "key": "person_name",
+            "label": "Name on document",
+            "value": "Emma Roberts",
+            "confidence": "low"
+          },
+          {
+            "key": "address_line1",
+            "label": "Address line 1",
+            "value": "10 Place Avenue",
+            "confidence": "low"
+          },
+          {
+            "key": "postcode",
+            "label": "Postcode",
+            "value": "NW27EB",
+            "confidence": "low"
+          }
+        ]
+      }
+    ]
   },
   {
     "case_id": "DSA-2026-00006",
