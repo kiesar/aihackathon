@@ -16,16 +16,55 @@ import type { ExtractedEvidenceField } from "@/types";
 
 /**
  * Extract raw text from a PDF buffer using pdf-parse v2.
- * Uses the PDFParse class with getText() method.
+ * - Digital PDFs: uses getText() directly (fast, accurate)
+ * - Scanned/image PDFs: falls back to rendering page as image then running Tesseract OCR
  */
 export async function extractTextFromPdf(buffer: Buffer): Promise<string> {
   try {
     const { PDFParse } = await import("pdf-parse");
+
+    // Step 1: try text layer extraction
     const parser = new PDFParse({ data: buffer });
     const result = await parser.getText({ pageJoiner: "\n" });
-    const text = result.text ?? "";
-    console.log(`[pdf-parse] Extracted ${text.length} chars, ${result.total} pages`);
-    return text;
+    const text = (result.text ?? "").trim();
+    console.log(`[pdf-parse] Text layer: ${text.length} chars, ${result.total} pages`);
+
+    if (text.length > 20) {
+      // Digital PDF with text layer — use it directly
+      return text;
+    }
+
+    // Step 2: text layer empty — scanned PDF, render to image and OCR
+    console.log("[pdf-parse] No text layer detected — rendering page for OCR");
+    try {
+      const screenshotParser = new PDFParse({ data: buffer });
+      const screenshots = await screenshotParser.getScreenshot({
+        desiredWidth: 1200,
+        imageBuffer: true,
+        imageDataUrl: false,
+      });
+
+      if (!screenshots.pages || screenshots.pages.length === 0) {
+        console.warn("[pdf-parse] No screenshot pages returned");
+        return "";
+      }
+
+      // OCR the first page (primary content page)
+      const firstPage = screenshots.pages[0];
+      if (!firstPage.data || firstPage.data.length === 0) {
+        console.warn("[pdf-parse] Screenshot data empty");
+        return "";
+      }
+
+      console.log(`[pdf-parse] Rendering page ${firstPage.pageNumber}: ${firstPage.width}x${firstPage.height}px`);
+      const imageBuffer = Buffer.from(firstPage.data);
+      const ocrText = await extractTextFromImage(imageBuffer, "image/png");
+      console.log(`[pdf-parse] OCR from screenshot: ${ocrText.length} chars`);
+      return ocrText;
+    } catch (screenshotErr) {
+      console.error("[pdf-parse] Screenshot/OCR fallback failed:", screenshotErr);
+      return "";
+    }
   } catch (err) {
     console.error("[pdf-parse] Extraction failed:", err);
     return "";
