@@ -63,20 +63,31 @@ export async function POST(request: NextRequest) {
     if (isPdf) {
       rawText = await extractTextFromPdf(buffer);
       extractionMethod = "pdf-parse";
+      console.log(`[Extract] PDF text extracted: ${rawText.length} chars`);
+      if (rawText.length > 0) {
+        console.log(`[Extract] First 500 chars: ${rawText.substring(0, 500)}`);
+      }
     } else if (isImage) {
       rawText = await extractTextFromImage(buffer, fileType);
       extractionMethod = "tesseract";
+      console.log(`[Extract] Image OCR extracted: ${rawText.length} chars`);
+      if (rawText.length > 0) {
+        console.log(`[Extract] First 500 chars: ${rawText.substring(0, 500)}`);
+      }
     }
     // DOC/DOCX: no open-source pure-JS parser with reliable output;
     // fall through to placeholder fields with low confidence.
 
     const fields = parseFieldsFromText(rawText, fileName, description);
+    console.log(`[Extract] Parsed ${fields.length} fields from text`);
+    console.log(`[Extract] Fields:`, JSON.stringify(fields, null, 2));
 
     return NextResponse.json({
       fields,
       isAiExtracted: true,
       extractionMethod,
       rawTextLength: rawText.length,
+      rawTextPreview: rawText.substring(0, 300), // for debugging — remove in production
       extractedAt: new Date().toISOString(),
     });
   } catch (error) {

@@ -104,6 +104,22 @@ function pickTemplate(description: string, fileName: string): FieldTemplate[] {
   return FIELD_TEMPLATES.default;
 }
 
+/** Pick template from the server-detected document type string */
+function pickTemplateFromDocType(docType: string): FieldTemplate[] | null {
+  const t = docType.toLowerCase();
+  if (t.includes("diagnostic") || t.includes("assessment") || t.includes("medical") || t.includes("letter")) {
+    return FIELD_TEMPLATES.diagnostic;
+  }
+  if (t.includes("invoice")) return FIELD_TEMPLATES.invoice;
+  if (t.includes("quote") || t.includes("quotation")) return FIELD_TEMPLATES.quote;
+  if (t.includes("bank") || t.includes("statement")) return FIELD_TEMPLATES.bank;
+  if (t.includes("council") || t.includes("utility") || t.includes("address") || t.includes("proof of address")) {
+    return FIELD_TEMPLATES.address;
+  }
+  if (t.includes("payslip") || t.includes("pay slip")) return FIELD_TEMPLATES.bank;
+  return null; // unknown — caller falls back to client-side template
+}
+
 /**
  * Merge extracted fields into the template.
  * Template fields that were extracted get the extracted value + confidence.
@@ -128,6 +144,7 @@ function mergeFieldsWithTemplate(
   });
 
   // Append any extra extracted fields not covered by the template
+  // so no server-extracted data is silently dropped
   for (const ef of extracted) {
     if (!template.find((t) => t.key === ef.key)) {
       merged.push({ ...ef, required: false });
@@ -174,6 +191,7 @@ function EvidenceContent() {
   const [extractedFields, setExtractedFields] = useState<ExtractedField[]>([]);
   const [extracting, setExtracting] = useState(false);
   const [extractError, setExtractError] = useState("");
+  const [debugInfo, setDebugInfo] = useState<string>("");
   const [reviewErrors, setReviewErrors] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const reviewErrorRef = useRef<HTMLDivElement>(null);
@@ -244,25 +262,42 @@ function EvidenceContent() {
       const formData = new FormData();
       formData.append("file", primary.rawFile);
       formData.append("fileName", primary.name);
-      formData.append("fileType", primary.type);
+      // Some browsers return empty string for fileType on PDFs — detect from name
+      const resolvedType = primary.type || (primary.name.toLowerCase().endsWith(".pdf") ? "application/pdf" : "application/octet-stream");
+      formData.append("fileType", resolvedType);
       formData.append("description", description.trim());
+
+      setDebugInfo(`Sending: ${primary.name} (${resolvedType}, ${primary.size} bytes)`);
 
       const res = await fetch("/api/cases/evidence/extract", {
         method: "POST",
         body: formData,
       });
 
+      setDebugInfo(prev => prev + ` → HTTP ${res.status}`);
+
       if (res.ok) {
         const data = await res.json();
+        setDebugInfo(prev => prev + ` | rawText: ${data.rawTextLength} chars | fields: ${(data.fields||[]).length} | method: ${data.extractionMethod}`);
+        console.log("[Evidence page] API response:", data);
+        console.log("[Evidence page] Raw extracted fields:", data.fields);
+        
         const rawExtracted: ExtractedField[] = (data.fields || []).map(
           (f: ExtractedField) => ({ ...f, required: false })
         );
+
+        // Use the server-detected document type to pick the best template,
+        // falling back to the client-side description/filename heuristic.
+        const detectedDocType = rawExtracted.find(f => f.key === "document_type")?.value ?? "";
+        const serverTemplate = pickTemplateFromDocType(detectedDocType) ?? template;
+
         // Merge extracted values into the template so all expected fields are shown
-        setExtractedFields(mergeFieldsWithTemplate(template, rawExtracted));
+        const merged = mergeFieldsWithTemplate(serverTemplate, rawExtracted);
+        setExtractedFields(merged);
         setExtractError("");
       } else {
-        // Extraction failed — show the template with all fields blank so the
-        // student knows exactly what information is needed
+        const errBody = await res.text();
+        setDebugInfo(prev => prev + ` | Error: ${errBody.substring(0, 100)}`);
         setExtractError(
           "We could not automatically extract information from your file. Please complete the required fields below."
         );
@@ -410,6 +445,18 @@ function EvidenceContent() {
             </p>
           </div>
 
+          {/* Debug info — shows extraction diagnostics */}
+          {debugInfo && (
+            <details className="govuk-details" style={{ marginBottom: "16px" }}>
+              <summary className="govuk-details__summary">
+                <span className="govuk-details__summary-text govuk-hint">Extraction diagnostics</span>
+              </summary>
+              <div className="govuk-details__text">
+                <p className="govuk-body-s" style={{ fontFamily: "monospace", wordBreak: "break-all" }}>{debugInfo}</p>
+              </div>
+            </details>
+          )}
+
           {extractError && (
             <div className="govuk-warning-text">
               <span className="govuk-warning-text__icon" aria-hidden="true">!</span>
@@ -435,27 +482,38 @@ function EvidenceContent() {
             {/* Left: file preview */}
             <div className="govuk-grid-column-one-half">
               <h2 className="govuk-heading-m">Document preview</h2>
-              {files.map((f, i) => (
+              {files.map((f, i) => {
+                const isImage = f.type.startsWith("image/");
+                const isPdf = f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf");
+                return (
                 <div key={i} style={{ marginBottom: "20px", border: "1px solid #b1b4b6", padding: "12px" }}>
                   <p className="govuk-body govuk-!-font-weight-bold" style={{ marginBottom: "8px" }}>
                     {f.name} <span className="govuk-hint" style={{ display: "inline" }}>({formatFileSize(f.size)})</span>
                   </p>
-                  {f.previewUrl ? (
+                  {isImage && f.previewUrl ? (
                     <img
                       src={f.previewUrl}
                       alt={`Preview of ${f.name}`}
                       style={{ maxWidth: "100%", maxHeight: "400px", display: "block" }}
                     />
+                  ) : isPdf && f.previewUrl ? (
+                    <iframe
+                      src={f.previewUrl}
+                      title={`Preview of ${f.name}`}
+                      style={{ width: "100%", height: "400px", border: "none" }}
+                      aria-label={`PDF preview of ${f.name}`}
+                    />
                   ) : (
                     <div style={{ background: "#f3f2f1", padding: "40px", textAlign: "center" }}>
                       <p className="govuk-body govuk-hint">
-                        {f.type === "application/pdf" ? "📄 PDF document" : "📎 Document"}<br />
+                        {isPdf ? "📄 PDF document" : "📎 Document"}<br />
                         Preview not available for this file type
                       </p>
                     </div>
                   )}
                 </div>
-              ))}
+                );
+              })}
               <p className="govuk-body govuk-hint">
                 Description: {description}
               </p>

@@ -20,7 +20,7 @@ export default function RootLayout({
           href="https://cdn.jsdelivr.net/npm/govuk-frontend@5.4.0/dist/govuk/govuk-frontend.min.css"
         />
       </head>
-      <body className="govuk-template__body">
+      <body className="govuk-template__body" suppressHydrationWarning>
         <a href="#main-content" className="govuk-skip-link" data-module="govuk-skip-link">
           Skip to main content
         </a>

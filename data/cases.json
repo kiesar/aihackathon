@@ -826,5 +826,50 @@
       "declaration_confirmed": true,
       "submitted_at": "2026-04-16T15:14:13.048Z"
     }
+  },
+  {
+    "case_id": "DSA-2026-00009",
+    "case_type": "dsa_application",
+    "status": "awaiting_evidence",
+    "applicant": {
+      "name": "S Samaa",
+      "forenames": "S",
+      "surname": "Samaa",
+      "reference": "",
+      "date_of_birth": "2000-03-13",
+      "sex": "male",
+      "address": {
+        "line1": "10 Place Ave",
+        "postcode": "NW3 7EB"
+      },
+      "university": "University of Glasgow",
+      "course": "PG Biomedical",
+      "notification_channel": "email",
+      "email": "sarguroh@hotmail.com"
+    },
+    "assigned_to": "jsmith",
+    "created_date": "2026-04-20T08:05:24.826Z",
+    "last_updated": "2026-04-20T08:05:24.826Z",
+    "timeline": [
+      {
+        "date": "2026-04-20T08:05:24.826Z",
+        "event": "case_created",
+        "note": "Application submitted by applicant"
+      }
+    ],
+    "case_notes": "",
+    "application_data": {
+      "cost_items": [
+        {
+          "id": "cost-1",
+          "description": "Mobility Lift",
+          "amount": 8000,
+          "supplier": "Mobility Care"
+        }
+      ],
+      "total_amount": 8000,
+      "declaration_confirmed": true,
+      "submitted_at": "2026-04-20T08:05:24.826Z"
+    }
   }
 ]
