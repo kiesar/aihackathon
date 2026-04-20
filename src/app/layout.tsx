@@ -17,7 +17,7 @@ export default function RootLayout({
       <head>
         <link
           rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/govuk-frontend@5.4.0/dist/govuk/govuk-frontend.min.css"
+          href="/govuk-frontend.min.css"
         />
       </head>
       <body className="govuk-template__body" suppressHydrationWarning>
