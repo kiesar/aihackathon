@@ -465,7 +465,7 @@
   {
     "case_id": "DSA-2026-00007",
     "case_type": "dsa_application",
-    "status": "evidence_received",
+    "status": "awaiting_evidence",
     "applicant": {
       "name": "fouad k",
       "forenames": "fouad",
@@ -484,7 +484,7 @@
     },
     "assigned_to": "mbrown",
     "created_date": "2026-04-16T13:13:52.496Z",
-    "last_updated": "2026-04-17T11:36:00.904Z",
+    "last_updated": "2026-04-21T09:43:11.214Z",
     "timeline": [
       {
         "date": "2026-04-16T13:13:52.496Z",
@@ -555,6 +555,17 @@
         "date": "2026-04-17T11:36:00.904Z",
         "event": "evidence_received",
         "note": "Evidence uploaded by applicant: new council taxfile. Files: Council tax.pdf"
+      },
+      {
+        "date": "2026-04-21T09:42:35.629Z",
+        "event": "evidence_requested",
+        "note": "can you upload medical info",
+        "actor": "mbrown"
+      },
+      {
+        "date": "2026-04-21T09:43:11.214Z",
+        "event": "state_transition",
+        "note": "Applicant viewed evidence request — status updated to Awaiting evidence."
       }
     ],
     "case_notes": "",
@@ -757,7 +768,7 @@
         ]
       }
     ],
-    "evidence_requested_date": "2026-04-17T11:24:01.799Z"
+    "evidence_requested_date": "2026-04-21T09:42:35.629Z"
   },
   {
     "case_id": "DSA-2026-00008",
@@ -830,7 +841,7 @@
   {
     "case_id": "DSA-2026-00009",
     "case_type": "dsa_application",
-    "status": "awaiting_evidence",
+    "status": "evidence_received",
     "applicant": {
       "name": "S Samaa",
       "forenames": "S",
@@ -849,12 +860,17 @@
     },
     "assigned_to": "jsmith",
     "created_date": "2026-04-20T08:05:24.826Z",
-    "last_updated": "2026-04-20T08:05:24.826Z",
+    "last_updated": "2026-04-21T09:40:21.219Z",
     "timeline": [
       {
         "date": "2026-04-20T08:05:24.826Z",
         "event": "case_created",
         "note": "Application submitted by applicant"
+      },
+      {
+        "date": "2026-04-21T09:40:21.219Z",
+        "event": "evidence_received",
+        "note": "Evidence uploaded by applicant: proof of address. Files: Council tax.pdf"
       }
     ],
     "case_notes": "",
@@ -870,6 +886,326 @@
       "total_amount": 8000,
       "declaration_confirmed": true,
       "submitted_at": "2026-04-20T08:05:24.826Z"
-    }
+    },
+    "evidence_submissions": [
+      {
+        "submitted_at": "2026-04-21T09:40:21.219Z",
+        "description": "proof of address",
+        "files": [
+          {
+            "name": "Council tax.pdf",
+            "size": 21031,
+            "type": "application/pdf"
+          }
+        ],
+        "extracted_fields": [
+          {
+            "key": "document_type",
+            "label": "Document type",
+            "value": "Council tax",
+            "confidence": "high"
+          },
+          {
+            "key": "document_date",
+            "label": "Document date",
+            "value": "10/03/2025",
+            "confidence": "high"
+          },
+          {
+            "key": "issuing_body",
+            "label": "Issuing organisation",
+            "value": "Glasgow City Council",
+            "confidence": "high"
+          },
+          {
+            "key": "person_name",
+            "label": "Name on document",
+            "value": "Emma Roberts",
+            "confidence": "high"
+          },
+          {
+            "key": "address_line1",
+            "label": "Address line 1",
+            "value": "100 Place Avenue",
+            "confidence": "high"
+          },
+          {
+            "key": "postcode",
+            "label": "Postcode",
+            "value": "NW2 7EB",
+            "confidence": "high"
+          },
+          {
+            "key": "amount",
+            "label": "Amount (£)",
+            "value": "£3200",
+            "confidence": "high"
+          },
+          {
+            "key": "vat",
+            "label": "VAT",
+            "value": "£2000",
+            "confidence": "medium"
+          },
+          {
+            "key": "total",
+            "label": "Total (inc. VAT)",
+            "value": "£3200",
+            "confidence": "high"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DSA-2026-00010",
+    "case_type": "dsa_application",
+    "status": "evidence_received",
+    "applicant": {
+      "name": "X Core",
+      "forenames": "X",
+      "surname": "Core",
+      "reference": "",
+      "date_of_birth": "2000-07-11",
+      "sex": "male",
+      "address": {
+        "line1": "10 Place Ave",
+        "postcode": "NE2 7EB"
+      },
+      "university": "University of Glasgow",
+      "course": "PG Biomedical",
+      "notification_channel": "email",
+      "email": "sarguroh@hotmail.com"
+    },
+    "assigned_to": "jsmith",
+    "created_date": "2026-04-21T09:48:37.214Z",
+    "last_updated": "2026-04-21T09:53:49.190Z",
+    "timeline": [
+      {
+        "date": "2026-04-21T09:48:37.214Z",
+        "event": "case_created",
+        "note": "Application submitted by applicant"
+      },
+      {
+        "date": "2026-04-21T09:53:49.190Z",
+        "event": "evidence_received",
+        "note": "Evidence uploaded by applicant: council tax. Files: Council tax.pdf"
+      }
+    ],
+    "case_notes": "",
+    "application_data": {
+      "cost_items": [
+        {
+          "id": "cost-1",
+          "description": "Mobility Care",
+          "amount": 2000,
+          "supplier": "Mobility Services"
+        }
+      ],
+      "total_amount": 2000,
+      "declaration_confirmed": true,
+      "submitted_at": "2026-04-21T09:48:37.214Z"
+    },
+    "evidence_submissions": [
+      {
+        "submitted_at": "2026-04-21T09:53:49.190Z",
+        "description": "council tax",
+        "files": [
+          {
+            "name": "Council tax.pdf",
+            "size": 21031,
+            "type": "application/pdf"
+          }
+        ],
+        "extracted_fields": [
+          {
+            "key": "document_type",
+            "label": "Document type",
+            "value": "Council tax",
+            "confidence": "high"
+          },
+          {
+            "key": "document_date",
+            "label": "Document date",
+            "value": "10/03/2025",
+            "confidence": "high"
+          },
+          {
+            "key": "issuing_body",
+            "label": "Issuing organisation",
+            "value": "Glasgow City Council",
+            "confidence": "high"
+          },
+          {
+            "key": "person_name",
+            "label": "Name on document",
+            "value": "Emma Roberts",
+            "confidence": "high"
+          },
+          {
+            "key": "address_line1",
+            "label": "Address line 1",
+            "value": "100 Place Avenue",
+            "confidence": "high"
+          },
+          {
+            "key": "postcode",
+            "label": "Postcode",
+            "value": "NW2 7EB",
+            "confidence": "high"
+          },
+          {
+            "key": "amount",
+            "label": "Amount (£)",
+            "value": "£3200",
+            "confidence": "high"
+          },
+          {
+            "key": "vat",
+            "label": "VAT",
+            "value": "£2000",
+            "confidence": "medium"
+          },
+          {
+            "key": "total",
+            "label": "Total (inc. VAT)",
+            "value": "£3200",
+            "confidence": "high"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "case_id": "DSA-2026-00011",
+    "case_type": "dsa_application",
+    "status": "approved",
+    "applicant": {
+      "name": "Ann Docherty",
+      "forenames": "Ann",
+      "surname": "Docherty",
+      "reference": "",
+      "date_of_birth": "2000-01-13",
+      "sex": "male",
+      "address": {
+        "line1": "10 Place Av",
+        "postcode": "NE2 7EB"
+      },
+      "university": "University of Glasgow",
+      "course": "PG CHemistry",
+      "notification_channel": "email",
+      "email": "sarguroh@hotmail.com"
+    },
+    "assigned_to": "jsmith",
+    "created_date": "2026-04-21T12:38:26.349Z",
+    "last_updated": "2026-04-21T12:53:22.189Z",
+    "timeline": [
+      {
+        "date": "2026-04-21T12:38:26.349Z",
+        "event": "case_created",
+        "note": "Application submitted by applicant"
+      },
+      {
+        "date": "2026-04-21T12:43:25.334Z",
+        "event": "evidence_received",
+        "note": "Evidence uploaded by applicant: council tax. Files: Council tax.pdf"
+      },
+      {
+        "date": "2026-04-21T12:45:31.546Z",
+        "event": "state_transition",
+        "note": "need someone to check the proof of address, i can't make out",
+        "actor": "jsmith"
+      },
+      {
+        "date": "2026-04-21T12:53:22.189Z",
+        "event": "decision_made",
+        "note": "all good",
+        "actor": "jsmith"
+      }
+    ],
+    "case_notes": "",
+    "application_data": {
+      "cost_items": [
+        {
+          "id": "cost-1",
+          "description": "Mobility while driving",
+          "amount": 3000,
+          "supplier": "Mobility Care"
+        }
+      ],
+      "total_amount": 3000,
+      "declaration_confirmed": true,
+      "submitted_at": "2026-04-21T12:38:26.349Z"
+    },
+    "evidence_submissions": [
+      {
+        "submitted_at": "2026-04-21T12:43:25.334Z",
+        "description": "council tax",
+        "files": [
+          {
+            "name": "Council tax.pdf",
+            "size": 21031,
+            "type": "application/pdf"
+          }
+        ],
+        "extracted_fields": [
+          {
+            "key": "document_type",
+            "label": "Document type",
+            "value": "Council tax",
+            "confidence": "high"
+          },
+          {
+            "key": "document_date",
+            "label": "Document date",
+            "value": "10/03/2025",
+            "confidence": "high"
+          },
+          {
+            "key": "issuing_body",
+            "label": "Issuing organisation",
+            "value": "Glasgow City Council",
+            "confidence": "high"
+          },
+          {
+            "key": "person_name",
+            "label": "Name on document",
+            "value": "Emma Roberts",
+            "confidence": "high"
+          },
+          {
+            "key": "address_line1",
+            "label": "Address line 1",
+            "value": "100 Place Avenue",
+            "confidence": "high"
+          },
+          {
+            "key": "postcode",
+            "label": "Postcode",
+            "value": "NW2 7EB",
+            "confidence": "high"
+          },
+          {
+            "key": "amount",
+            "label": "Amount (£)",
+            "value": "£3200",
+            "confidence": "high"
+          },
+          {
+            "key": "vat",
+            "label": "VAT",
+            "value": "£2000",
+            "confidence": "medium"
+          },
+          {
+            "key": "total",
+            "label": "Total (inc. VAT)",
+            "value": "£3200",
+            "confidence": "high"
+          }
+        ]
+      }
+    ],
+    "decision_reason": "no more infor needed"
   }
 ]
