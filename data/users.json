@@ -1,8 +1,8 @@
 [
   {
     "username": "jsmith",
-    "password_hash": "$2b$12$EJd3hIrv3Al/3tIcv3Oj3ObCruAyFL5sHhr8LZuMkkKjEl/eI4QB.",
-    "role": "caseworker",
+    "password_hash": "$2b$12$grcpJDJuSlDYG8Zeg5Ww9e3GzuDKZ24xjWmnJ6kIe0HjzcqFzKPOS",
+    "role": "team_leader",
     "team": "team_a",
     "display_name": "Jane Smith"
   },

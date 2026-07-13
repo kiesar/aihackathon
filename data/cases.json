@@ -1735,9 +1735,9 @@
       "notification_channel": "email",
       "email": "sarguroh@hotmail.com"
     },
-    "assigned_to": "jsmith",
+    "assigned_to": "mbrown",
     "created_date": "2026-04-21T12:38:26.349Z",
-    "last_updated": "2026-04-21T12:53:22.189Z",
+    "last_updated": "2026-07-13T19:56:12.418Z",
     "timeline": [
       {
         "date": "2026-04-21T12:38:26.349Z",
@@ -1759,6 +1759,12 @@
         "date": "2026-04-21T12:53:22.189Z",
         "event": "decision_made",
         "note": "all good",
+        "actor": "jsmith"
+      },
+      {
+        "date": "2026-07-13T19:56:12.418Z",
+        "event": "reassigned",
+        "note": "Reassigned from jsmith to mbrown",
         "actor": "jsmith"
       }
     ],
@@ -1867,9 +1873,9 @@
       "notification_channel": "email",
       "email": "sarguroh@hotmail.com"
     },
-    "assigned_to": "jsmith",
+    "assigned_to": "mbrown",
     "created_date": "2026-05-18T13:18:42.606Z",
-    "last_updated": "2026-07-13T20:07:34.271Z",
+    "last_updated": "2026-07-13T19:55:42.869Z",
     "timeline": [
       {
         "date": "2026-05-18T13:18:42.606Z",
@@ -1904,35 +1910,10 @@
         "note": "Evidence uploaded by applicant: invoice. Files: invoice_MF20259633.pdf"
       },
       {
-        "date": "2026-07-13T19:19:11.158Z",
-        "event": "notification_sent",
-        "note": "Applicant added consent for Student Finance England"
-      },
-      {
-        "date": "2026-07-13T19:48:01.293Z",
-        "event": "evidence_requested",
-        "note": "please upload latest copy of ctax",
+        "date": "2026-07-13T19:55:42.869Z",
+        "event": "reassigned",
+        "note": "Reassigned from jsmith to mbrown",
         "actor": "jsmith"
-      },
-      {
-        "date": "2026-07-13T19:50:24.078Z",
-        "event": "state_transition",
-        "note": "Applicant viewed evidence request — status updated to Awaiting evidence."
-      },
-      {
-        "date": "2026-07-13T20:04:51.806Z",
-        "event": "evidence_received",
-        "note": "Evidence uploaded by applicant: council tax. Files: ss-ctax-IMG-20250327-WA0003.jpg"
-      },
-      {
-        "date": "2026-07-13T20:04:51.806Z",
-        "event": "notification_sent",
-        "note": "Applicant granted evidence access consent to: Student Finance England, Disabled Facilities Grant (Local Authority)"
-      },
-      {
-        "date": "2026-07-13T20:07:34.271Z",
-        "event": "notification_sent",
-        "note": "Applicant revoked consent for Student Finance England"
       }
     ],
     "case_notes": "",
