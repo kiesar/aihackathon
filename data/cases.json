@@ -79,7 +79,7 @@
   {
     "case_id": "DSA-2026-00002",
     "case_type": "dsa_application",
-    "status": "evidence_requested",
+    "status": "awaiting_evidence",
     "applicant": {
       "name": "James Chen",
       "forenames": "James",
@@ -98,7 +98,7 @@
     },
     "assigned_to": "jsmith",
     "created_date": "2026-02-15T14:00:00.000Z",
-    "last_updated": "2026-05-23T19:35:33.947Z",
+    "last_updated": "2026-07-13T21:27:21.528Z",
     "timeline": [
       {
         "date": "2026-02-15T14:00:00.000Z",
@@ -143,6 +143,11 @@
         "event": "evidence_requested",
         "note": "can you send the invoices",
         "actor": "jsmith"
+      },
+      {
+        "date": "2026-07-13T21:27:21.528Z",
+        "event": "state_transition",
+        "note": "Applicant viewed evidence request — status updated to Awaiting evidence."
       }
     ],
     "case_notes": "Applicant has dyslexia diagnosis from 2019. Quotes look reasonable.",
@@ -196,7 +201,7 @@
     },
     "assigned_to": "mbrown",
     "created_date": "2026-01-10T11:00:00.000Z",
-    "last_updated": "2026-06-25T13:27:23.729Z",
+    "last_updated": "2026-07-13T21:27:49.810Z",
     "timeline": [
       {
         "date": "2026-01-10T11:00:00.000Z",
@@ -221,6 +226,11 @@
       },
       {
         "date": "2026-06-25T13:27:23.729Z",
+        "event": "notification_sent",
+        "note": "Automated letter sent: Action required: Please submit your evidence for DSA application DSA-2026-00003"
+      },
+      {
+        "date": "2026-07-13T21:27:49.810Z",
         "event": "notification_sent",
         "note": "Automated letter sent: Action required: Please submit your evidence for DSA application DSA-2026-00003"
       }
@@ -275,6 +285,17 @@
         "type": "reminder_evidence",
         "subject": "Action required: Please submit your evidence for DSA application DSA-2026-00003",
         "body": "Dear Priya Patel,\n\nWe are writing to remind you that we are still waiting for supporting evidence for your Disabled Students Allowance (DSA) application (reference: DSA-2026-00003).\n\nYour application has been awaiting evidence for 164 days. To avoid delays in processing your application, please submit the required documents as soon as possible.\n\nYou can upload your evidence by visiting your application status page and clicking 'Upload evidence'.\n\nIf you have already submitted your evidence, please disregard this message.\n\nIf you have any questions, please contact us.\n\nYours sincerely,\nStudent Finance England\nDSA Processing Team",
+        "sent_via": "email",
+        "sent_to": "priya.patel@bristol.ac.uk",
+        "triggered_by": "automatic",
+        "trigger_rule": "awaiting_evidence_2d"
+      },
+      {
+        "letter_id": "b8703e36-9ddb-4ad3-bb0d-d11774c9e923",
+        "generated_at": "2026-07-13T21:27:49.810Z",
+        "type": "reminder_evidence",
+        "subject": "Action required: Please submit your evidence for DSA application DSA-2026-00003",
+        "body": "Dear Priya Patel,\n\nWe are writing to remind you that we are still waiting for supporting evidence for your Disabled Students Allowance (DSA) application (reference: DSA-2026-00003).\n\nYour application has been awaiting evidence for 182 days. To avoid delays in processing your application, please submit the required documents as soon as possible.\n\nYou can upload your evidence by visiting your application status page and clicking 'Upload evidence'.\n\nIf you have already submitted your evidence, please disregard this message.\n\nIf you have any questions, please contact us.\n\nYours sincerely,\nStudent Finance England\nDSA Processing Team",
         "sent_via": "email",
         "sent_to": "priya.patel@bristol.ac.uk",
         "triggered_by": "automatic",
@@ -494,7 +515,7 @@
     },
     "assigned_to": "mbrown",
     "created_date": "2026-04-16T13:12:03.032Z",
-    "last_updated": "2026-06-25T13:27:23.729Z",
+    "last_updated": "2026-07-13T21:27:49.810Z",
     "timeline": [
       {
         "date": "2026-04-16T13:12:03.032Z",
@@ -538,6 +559,11 @@
         "date": "2026-06-25T13:27:23.729Z",
         "event": "notification_sent",
         "note": "Automated letter sent: Urgent: Evidence required for DSA application DSA-2026-00006 — deadline approaching"
+      },
+      {
+        "date": "2026-07-13T21:27:49.810Z",
+        "event": "notification_sent",
+        "note": "Automated letter sent: Action required: Please submit your evidence for DSA application DSA-2026-00006"
       }
     ],
     "case_notes": "",
@@ -589,6 +615,17 @@
         "sent_to": "fouad.2014.ece.@gmail.com",
         "triggered_by": "automatic",
         "trigger_rule": "awaiting_evidence_28d"
+      },
+      {
+        "letter_id": "761fedd9-310c-455d-ab5d-d54d2a39860a",
+        "generated_at": "2026-07-13T21:27:49.810Z",
+        "type": "reminder_evidence",
+        "subject": "Action required: Please submit your evidence for DSA application DSA-2026-00006",
+        "body": "Dear fouad khan,\n\nWe are writing to remind you that we are still waiting for supporting evidence for your Disabled Students Allowance (DSA) application (reference: DSA-2026-00006).\n\nYour application has been awaiting evidence for 51 days. To avoid delays in processing your application, please submit the required documents as soon as possible.\n\nYou can upload your evidence by visiting your application status page and clicking 'Upload evidence'.\n\nIf you have already submitted your evidence, please disregard this message.\n\nIf you have any questions, please contact us.\n\nYours sincerely,\nStudent Finance England\nDSA Processing Team",
+        "sent_via": "email",
+        "sent_to": "fouad.2014.ece.@gmail.com",
+        "triggered_by": "automatic",
+        "trigger_rule": "awaiting_evidence_2d"
       }
     ]
   },
@@ -994,7 +1031,7 @@
     },
     "assigned_to": "jsmith",
     "created_date": "2026-04-16T15:14:13.048Z",
-    "last_updated": "2026-06-17T09:28:02.777Z",
+    "last_updated": "2026-07-13T21:27:49.810Z",
     "timeline": [
       {
         "date": "2026-04-16T15:14:13.048Z",
@@ -1022,6 +1059,11 @@
         "event": "state_transition",
         "note": "Please assess the case with the evidences received",
         "actor": "jsmith"
+      },
+      {
+        "date": "2026-07-13T21:27:49.810Z",
+        "event": "notification_sent",
+        "note": "Automated letter sent: Reminder: DSA needs assessment for application DSA-2026-00008"
       }
     ],
     "case_notes": "",
@@ -1062,6 +1104,17 @@
         "triggered_by": "automatic",
         "trigger_rule": "under_review_14d",
         "read_at": "2026-06-25T13:28:57.236Z"
+      },
+      {
+        "letter_id": "24c474db-aa35-4676-90d9-1b0b26c1c8f2",
+        "generated_at": "2026-07-13T21:27:49.810Z",
+        "type": "reminder_assessment",
+        "subject": "Reminder: DSA needs assessment for application DSA-2026-00008",
+        "body": "Dear S Sierra,\n\nYour Disabled Students Allowance (DSA) application (reference: DSA-2026-00008) requires a needs assessment before we can make a decision.\n\nPlease contact your university's disability service or an approved DSA needs assessor to arrange your assessment. Once completed, please ensure the assessment report is submitted to us.\n\nIf you have already arranged your assessment, please disregard this message.\n\nYours sincerely,\nStudent Finance England\nDSA Processing Team",
+        "sent_via": "email",
+        "sent_to": "sarguroh@hotmail.com",
+        "triggered_by": "automatic",
+        "trigger_rule": "awaiting_assessment_14d"
       }
     ]
   },
@@ -1087,7 +1140,7 @@
     },
     "assigned_to": "jsmith",
     "created_date": "2026-04-20T08:05:24.826Z",
-    "last_updated": "2026-06-25T13:26:46.377Z",
+    "last_updated": "2026-07-13T21:27:49.810Z",
     "timeline": [
       {
         "date": "2026-04-20T08:05:24.826Z",
@@ -1125,6 +1178,11 @@
         "event": "state_transition",
         "note": "review this application",
         "actor": "jsmith"
+      },
+      {
+        "date": "2026-07-13T21:27:49.810Z",
+        "event": "notification_sent",
+        "note": "Automated letter sent: Update on your DSA application DSA-2026-00009"
       }
     ],
     "case_notes": "",
@@ -1302,7 +1360,20 @@
         ]
       }
     ],
-    "evidence_requested_date": "2026-06-17T09:28:47.071Z"
+    "evidence_requested_date": "2026-06-17T09:28:47.071Z",
+    "outbound_letters": [
+      {
+        "letter_id": "dd0064c8-a032-47c9-b7fd-ee8eb9f23ebf",
+        "generated_at": "2026-07-13T21:27:49.810Z",
+        "type": "general_update",
+        "subject": "Update on your DSA application DSA-2026-00009",
+        "body": "Dear S Samaa,\n\nWe wanted to let you know that your Disabled Students Allowance (DSA) application (reference: DSA-2026-00009) is currently under review.\n\nOur team is working through your application and we aim to provide a decision as soon as possible. You do not need to take any action at this time.\n\nYou can check the current status of your application at any time using your case reference number.\n\nThank you for your patience.\n\nYours sincerely,\nStudent Finance England\nDSA Processing Team",
+        "sent_via": "email",
+        "sent_to": "sarguroh@hotmail.com",
+        "triggered_by": "automatic",
+        "trigger_rule": "under_review_14d"
+      }
+    ]
   },
   {
     "case_id": "DSA-2026-00010",
