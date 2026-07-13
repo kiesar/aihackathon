@@ -1869,7 +1869,7 @@
     },
     "assigned_to": "jsmith",
     "created_date": "2026-05-18T13:18:42.606Z",
-    "last_updated": "2026-05-18T13:26:55.062Z",
+    "last_updated": "2026-07-13T20:07:34.271Z",
     "timeline": [
       {
         "date": "2026-05-18T13:18:42.606Z",
@@ -1902,6 +1902,37 @@
         "date": "2026-05-18T13:26:55.062Z",
         "event": "evidence_received",
         "note": "Evidence uploaded by applicant: invoice. Files: invoice_MF20259633.pdf"
+      },
+      {
+        "date": "2026-07-13T19:19:11.158Z",
+        "event": "notification_sent",
+        "note": "Applicant added consent for Student Finance England"
+      },
+      {
+        "date": "2026-07-13T19:48:01.293Z",
+        "event": "evidence_requested",
+        "note": "please upload latest copy of ctax",
+        "actor": "jsmith"
+      },
+      {
+        "date": "2026-07-13T19:50:24.078Z",
+        "event": "state_transition",
+        "note": "Applicant viewed evidence request — status updated to Awaiting evidence."
+      },
+      {
+        "date": "2026-07-13T20:04:51.806Z",
+        "event": "evidence_received",
+        "note": "Evidence uploaded by applicant: council tax. Files: ss-ctax-IMG-20250327-WA0003.jpg"
+      },
+      {
+        "date": "2026-07-13T20:04:51.806Z",
+        "event": "notification_sent",
+        "note": "Applicant granted evidence access consent to: Student Finance England, Disabled Facilities Grant (Local Authority)"
+      },
+      {
+        "date": "2026-07-13T20:07:34.271Z",
+        "event": "notification_sent",
+        "note": "Applicant revoked consent for Student Finance England"
       }
     ],
     "case_notes": "",
@@ -2069,9 +2100,120 @@
             "value": "06410892",
             "confidence": "high"
           }
+        ],
+        "consent_grants": [
+          {
+            "alb_id": "sfe",
+            "alb_name": "Student Finance England",
+            "granted_at": "2026-07-13T19:19:11.158Z",
+            "expires_at": "2026-10-11T19:19:11.158Z",
+            "evidence_types": [
+              "diagnostic",
+              "address",
+              "bank",
+              "invoice",
+              "quote"
+            ],
+            "revoked_at": "2026-07-13T20:07:34.271Z"
+          }
+        ]
+      },
+      {
+        "submitted_at": "2026-07-13T20:04:51.806Z",
+        "description": "council tax",
+        "files": [
+          {
+            "name": "ss-ctax-IMG-20250327-WA0003.jpg",
+            "size": 283372,
+            "type": "image/jpeg"
+          }
+        ],
+        "extracted_fields": [
+          {
+            "key": "document_type",
+            "label": "Document type",
+            "value": "Supplier quote",
+            "confidence": "high"
+          },
+          {
+            "key": "document_date",
+            "label": "Quote date",
+            "value": "01 March 2025",
+            "confidence": "low"
+          },
+          {
+            "key": "issuing_body",
+            "label": "Supplier name",
+            "value": "Glasgow City Council",
+            "confidence": "high"
+          },
+          {
+            "key": "reference_number",
+            "label": "Quote reference",
+            "value": "811259783",
+            "confidence": "high"
+          },
+          {
+            "key": "item_description",
+            "label": "Item / service description",
+            "value": "Council Tax",
+            "confidence": "low"
+          },
+          {
+            "key": "amount",
+            "label": "Amount (exc. VAT) £",
+            "value": "£3485.11",
+            "confidence": "high"
+          },
+          {
+            "key": "vat",
+            "label": "VAT £",
+            "value": "",
+            "confidence": "low"
+          },
+          {
+            "key": "total",
+            "label": "Total (inc. VAT) £",
+            "value": "£3485.11",
+            "confidence": "low"
+          },
+          {
+            "key": "postcode",
+            "label": "Postcode",
+            "value": "G5 8AD",
+            "confidence": "high"
+          }
+        ],
+        "consent_grants": [
+          {
+            "alb_id": "sfe",
+            "alb_name": "Student Finance England",
+            "granted_at": "2026-07-13T20:04:51.806Z",
+            "expires_at": "2026-08-12T20:04:51.806Z",
+            "evidence_types": [
+              "diagnostic",
+              "address",
+              "bank",
+              "invoice",
+              "quote"
+            ],
+            "revoked_at": "2026-07-13T20:07:34.271Z"
+          },
+          {
+            "alb_id": "disabled_facilities_grant",
+            "alb_name": "Disabled Facilities Grant (Local Authority)",
+            "granted_at": "2026-07-13T20:04:51.806Z",
+            "expires_at": "2026-08-12T20:04:51.806Z",
+            "evidence_types": [
+              "diagnostic",
+              "address",
+              "invoice",
+              "quote"
+            ]
+          }
         ]
       }
     ],
-    "evidence_requested_date": "2026-05-18T13:25:00.948Z"
+    "evidence_requested_date": "2026-07-13T19:48:01.293Z"
   }
 ]
