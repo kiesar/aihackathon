@@ -1735,9 +1735,9 @@
       "notification_channel": "email",
       "email": "sarguroh@hotmail.com"
     },
-    "assigned_to": "jsmith",
+    "assigned_to": "mbrown",
     "created_date": "2026-04-21T12:38:26.349Z",
-    "last_updated": "2026-04-21T12:53:22.189Z",
+    "last_updated": "2026-07-13T19:56:12.418Z",
     "timeline": [
       {
         "date": "2026-04-21T12:38:26.349Z",
@@ -1759,6 +1759,12 @@
         "date": "2026-04-21T12:53:22.189Z",
         "event": "decision_made",
         "note": "all good",
+        "actor": "jsmith"
+      },
+      {
+        "date": "2026-07-13T19:56:12.418Z",
+        "event": "reassigned",
+        "note": "Reassigned from jsmith to mbrown",
         "actor": "jsmith"
       }
     ],
@@ -1867,9 +1873,9 @@
       "notification_channel": "email",
       "email": "sarguroh@hotmail.com"
     },
-    "assigned_to": "jsmith",
+    "assigned_to": "mbrown",
     "created_date": "2026-05-18T13:18:42.606Z",
-    "last_updated": "2026-05-18T13:26:55.062Z",
+    "last_updated": "2026-07-13T19:55:42.869Z",
     "timeline": [
       {
         "date": "2026-05-18T13:18:42.606Z",
@@ -1902,6 +1908,12 @@
         "date": "2026-05-18T13:26:55.062Z",
         "event": "evidence_received",
         "note": "Evidence uploaded by applicant: invoice. Files: invoice_MF20259633.pdf"
+      },
+      {
+        "date": "2026-07-13T19:55:42.869Z",
+        "event": "reassigned",
+        "note": "Reassigned from jsmith to mbrown",
+        "actor": "jsmith"
       }
     ],
     "case_notes": "",

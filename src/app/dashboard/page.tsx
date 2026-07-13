@@ -152,6 +152,11 @@ export default function CaseListPage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <h1 className="govuk-heading-l">Your cases</h1>
           <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
+            {data?.role === "team_leader" && (
+              <a href="/dashboard/team" className="govuk-button govuk-button--secondary" style={{ marginBottom: 0 }}>
+                Team view
+              </a>
+            )}
             <a href="/dashboard/correspondence" className="govuk-button govuk-button--secondary" style={{ marginBottom: 0 }}>
               Correspondence config
             </a>

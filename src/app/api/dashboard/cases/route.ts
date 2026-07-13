@@ -22,6 +22,7 @@ export interface DashboardCasesResponse {
   totalCount: number;
   escalationCount: number;
   stateCounts?: Record<string, number>;
+  role?: string;
 }
 
 function calculateEvidenceFlag(
@@ -124,6 +125,7 @@ export async function GET(request: NextRequest) {
       cases: items,
       totalCount: items.length,
       escalationCount,
+      role: session.role,
     };
 
     // Include state counts for team view
