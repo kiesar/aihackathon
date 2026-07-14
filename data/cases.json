@@ -266,7 +266,8 @@
         "sent_via": "email",
         "sent_to": "priya.patel@bristol.ac.uk",
         "triggered_by": "automatic",
-        "trigger_rule": "awaiting_evidence_2d"
+        "trigger_rule": "awaiting_evidence_2d",
+        "read_at": "2026-07-14T11:49:57.207Z"
       },
       {
         "letter_id": "967c55fd-a34a-4ca2-b315-02b9ecb38304",
@@ -277,7 +278,8 @@
         "sent_via": "email",
         "sent_to": "priya.patel@bristol.ac.uk",
         "triggered_by": "automatic",
-        "trigger_rule": "awaiting_evidence_28d"
+        "trigger_rule": "awaiting_evidence_28d",
+        "read_at": "2026-07-14T11:52:19.821Z"
       },
       {
         "letter_id": "97d9bba3-efa3-43b1-8533-b82d7c1b0041",
