@@ -2085,5 +2085,50 @@
       }
     ],
     "evidence_requested_date": "2026-05-18T13:25:00.948Z"
+  },
+  {
+    "case_id": "DSA-2026-00013",
+    "case_type": "dsa_application",
+    "status": "awaiting_evidence",
+    "applicant": {
+      "name": "Jhon adam",
+      "forenames": "Jhon",
+      "surname": "adam",
+      "reference": "",
+      "date_of_birth": "1993-11-18",
+      "sex": "male",
+      "address": {
+        "line1": "city centre",
+        "postcode": "G117xq"
+      },
+      "university": "Glasgow",
+      "course": "Btech",
+      "notification_channel": "email",
+      "email": "fouadkhan18@gmail.com"
+    },
+    "assigned_to": "jsmith",
+    "created_date": "2026-07-20T10:47:48.550Z",
+    "last_updated": "2026-07-20T10:47:48.550Z",
+    "timeline": [
+      {
+        "date": "2026-07-20T10:47:48.550Z",
+        "event": "case_created",
+        "note": "Application submitted by applicant"
+      }
+    ],
+    "case_notes": "",
+    "application_data": {
+      "cost_items": [
+        {
+          "id": "cost-1",
+          "description": "Tution fee",
+          "amount": 5000,
+          "supplier": "university"
+        }
+      ],
+      "total_amount": 5000,
+      "declaration_confirmed": true,
+      "submitted_at": "2026-07-20T10:47:48.550Z"
+    }
   }
 ]

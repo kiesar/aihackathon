@@ -77,26 +77,27 @@ export default function TeamLeaderPage() {
       if (!res.ok) throw new Error("Failed to fetch cases");
       const json: TeamCasesResponse = await res.json();
       setData(json);
-
-      // Extract unique team members from case data
-      const members = new Map<string, string>();
-      for (const c of json.cases) {
-        if (c.assigned_to) {
-          members.set(c.assigned_to, c.assigned_to);
-        }
-      }
-      setTeamMembers(
-        Array.from(members.entries()).map(([username]) => ({
-          username,
-          display_name: username,
-        }))
-      );
     } catch {
       setError("Sorry, there is a problem with the service. Try again later.");
     } finally {
       setLoading(false);
     }
   }, [statusFilter, sortField, sortOrder, router]);
+
+  useEffect(() => {
+    async function fetchTeamMembers() {
+      try {
+        const res = await fetch("/api/dashboard/team-members");
+        if (res.ok) {
+          const json = await res.json();
+          setTeamMembers(json.members);
+        }
+      } catch {
+        // Non-critical — reassign just won't show members
+      }
+    }
+    fetchTeamMembers();
+  }, []);
 
   useEffect(() => {
     fetchCases();

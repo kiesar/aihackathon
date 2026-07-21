@@ -19,6 +19,7 @@ interface DashboardCasesResponse {
   cases: DashboardCaseItem[];
   totalCount: number;
   escalationCount: number;
+  role?: string;
 }
 
 interface TeamMember {
