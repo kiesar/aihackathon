@@ -1,0 +1,57 @@
+{
+  "description": "Configurable PII field definitions for evidence extraction. To extract a new PII field, add an entry to pii_fields — no code change needed. Fields: key (machine key), label (shown in UI), aliases (document labels to search, longest wins), valuePattern (optional regex — value gets high confidence if it matches, low if it fails), stopBefore (tokens that truncate the captured value, e.g. a trailing 'Tel:'), enabled (switch off without deleting).",
+  "pii_fields": [
+    {
+      "key": "customer_reference_number",
+      "label": "Customer Reference Number",
+      "aliases": ["customer reference number", "customer reference"],
+      "valuePattern": "^\\d{6,11}$",
+      "stopBefore": ["tel:", "email:", "phone"],
+      "enabled": true
+    },
+    {
+      "key": "email_address",
+      "label": "Email Address",
+      "aliases": ["email address"],
+      "valuePattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$",
+      "stopBefore": ["tel:", "phone"],
+      "enabled": true
+    },
+    {
+      "key": "funding_body",
+      "label": "Funding Body",
+      "aliases": ["funding body name", "funding body"],
+      "stopBefore": ["tel:", "email:", "phone"],
+      "enabled": true
+    },
+    {
+      "key": "assessment_centre_name",
+      "label": "Assessment Centre Name",
+      "aliases": ["assessment centre name", "assessment centre"],
+      "stopBefore": ["tel:", "email:", "phone"],
+      "enabled": true
+    },
+    {
+      "key": "needs_assessor",
+      "label": "Needs Assessor",
+      "aliases": ["needs assessor"],
+      "stopBefore": ["tel:", "email:", "phone"],
+      "enabled": true
+    },
+    {
+      "key": "assessment_type",
+      "label": "Assessment Type / Review Reason",
+      "aliases": ["assessment type / review reason", "assessment type"],
+      "stopBefore": ["tel:", "email:", "phone"],
+      "enabled": true
+    },
+    {
+      "key": "course_language",
+      "label": "Course language",
+      "aliases": ["course language", "language of course"],
+      "valuePattern": "^[A-Za-z][A-Za-z\\s-]{1,30}$",
+      "stopBefore": ["tel:", "email:", "phone"],
+      "enabled": true
+    }
+  ]
+}

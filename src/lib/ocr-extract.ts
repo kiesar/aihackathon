@@ -11,6 +11,7 @@
  */
 
 import type { ExtractedEvidenceField } from "@/types";
+import { rejoinWrappedLines } from "./pii-extract";
 
 // ── Raw text extraction ──────────────────────────────────────
 
@@ -143,8 +144,10 @@ const DATE_PATTERNS = [
 // ── Money patterns ───────────────────────────────────────────
 
 const MONEY_PATTERNS = [
-  // "Total: £349.00" or "Amount £349"
-  /(?:total|amount|price|cost|fee|charge|subtotal)[^\n£$€]*[£$€]\s*([\d,]+\.?\d{0,2})/i,
+  // "Total: £349.00" or "Amount £349".
+  // Lookbehinds exclude comparison figures ("Difference in cost £500",
+  // "Comparative ... cost") which are not claim amounts.
+  /(?<!difference\s?in\s?)(?<!comparative\s)(?:total|amount|price|cost|fee|charge|subtotal)[^\n£$€]*[£$€]\s*([\d,]+\.?\d{0,2})/i,
   // "£349.00" standalone
   /[£$€]\s*([\d,]+\.\d{2})\b/,
   // "349.00 GBP"
@@ -152,6 +155,12 @@ const MONEY_PATTERNS = [
   // Plain number after currency label
   /(?:£|GBP)\s*(\d[\d,]*(?:\.\d{1,2})?)/,
 ];
+
+/** A plausible money value parses as a number when £ and commas are stripped. */
+function moneyConfidence(value: string): "high" | "low" {
+  const n = Number(value.replace(/[£$€,\s]/g, ""));
+  return Number.isFinite(n) && n > 0 ? "high" : "low";
+}
 
 const VAT_PATTERNS = [
   /(?:VAT|tax)[^\n£$€]*[£$€]\s*([\d,]+\.?\d{0,2})/i,
@@ -168,14 +177,21 @@ const TOTAL_PATTERNS = [
 // ── Reference patterns ───────────────────────────────────────
 
 const REF_PATTERNS = [
-  // "Invoice No: INV-2026-001" or "Reference: REF123"
-  /(?:invoice\s*(?:no|number|#|num)|ref(?:erence)?(?:\s*no)?|quote\s*(?:no|number|#)|order\s*(?:no|number|#))[:\s#]*([A-Z0-9][A-Z0-9\-\/]{3,20})/i,
-  // Structured codes like "INV-2026-001", "QT-2026-001"
+  // Structured codes like "INV-2026-001", "DSA-2024-001" — most precise, try first
   /\b([A-Z]{2,4}[-\/]\d{4}[-\/]\d{3,6})\b/,
-  /\b(INV|QT|ORD|REF|DSA|CASE)[-\/]?\d{4,10}\b/i,
+  /\b((?:INV|QT|ORD|REF|DSA|CASE)[-\/]?\d{4,10})\b/i,
+  // "Invoice No: INV-2026-001" or "Reference: REF123".
+  // The separator is REQUIRED ([:\s#]+): with it optional, backtracking could
+  // match "Ref" and capture the tail of the word "Reference" itself ("erence").
+  /(?:invoice\s*(?:no|number|#|num)|ref(?:erence)?(?:\s*no)?|quote\s*(?:no|number|#)|order\s*(?:no|number|#))[:\s#]+([A-Z0-9][A-Z0-9\-\/]{3,20})/i,
   // Any alphanumeric reference after "Ref:" or "No:"
   /(?:ref|no)[.:\s]+([A-Z0-9]{4,15})\b/i,
 ];
+
+/** A plausible reference contains at least one digit — else flag for review. */
+function refConfidence(value: string): "high" | "low" {
+  return /\d/.test(value) && value.length >= 4 ? "high" : "low";
+}
 
 // ── Organisation / name patterns ─────────────────────────────
 
@@ -202,6 +218,55 @@ const PERSON_PATTERNS = [
   // "To: John Smith" at start of line
   /^To[:\s]+([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,2})/m,
 ];
+
+// ── Diagnosis & recommendations (diagnostic / assessment docs) ──
+
+const DIAGNOSIS_TERMS = [
+  "dyslexia", "dyspraxia", "dyscalculia", "dysgraphia", "adhd", "add",
+  "autism", "asd", "asperger", "anxiety", "depression", "epilepsy",
+  "cerebral palsy", "chronic fatigue", "me/cfs", "hearing impairment",
+  "visual impairment", "mental health condition", "spld",
+];
+
+/**
+ * Extract a diagnosis statement. Prefers an explicit "diagnosis of X" /
+ * "diagnosed with X" phrase; falls back to scanning for known condition terms.
+ */
+function extractDiagnosis(text: string): { value: string; explicit: boolean } {
+  const m = text.match(/diagnos(?:is|ed)\s+(?:of|with)\s+([^\n.]{3,80})/i);
+  if (m) return { value: m[1].trim(), explicit: true };
+
+  const found = DIAGNOSIS_TERMS.filter((t) =>
+    new RegExp(`\\b${t.replace(/[/]/g, "\\/")}\\b`, "i").test(text)
+  );
+  return { value: found.join(", "), explicit: false };
+}
+
+/**
+ * Extract the bullet list under a "recommended support" / "recommendations"
+ * heading. Category headers ("Hardware:") are skipped; capped at 8 items.
+ */
+function extractRecommendations(text: string): string {
+  const heading = text.match(/list of recommended support|recommended support|recommendations/i);
+  if (!heading || heading.index === undefined) return "";
+
+  const lines = text.slice(heading.index).split("\n").slice(1);
+  const items: string[] = [];
+  for (const line of lines) {
+    const l = line.trim();
+    if (!l) continue;
+    if (/^[A-F]-\d/.test(l)) break; // next report section, e.g. "A-2"
+    const bullet = l.match(/^[•o\-*]\s+(.+)$/);
+    if (bullet) {
+      const item = bullet[1].trim();
+      if (!item.endsWith(":")) items.push(item); // skip category headers
+    } else if (items.length > 0) {
+      break; // bullet list ended
+    }
+    if (items.length >= 8) break;
+  }
+  return items.join("; ");
+}
 
 // ── Document type detection ──────────────────────────────────
 
@@ -251,10 +316,10 @@ export function parseFieldsFromText(
 ): ExtractedEvidenceField[] {
   const fields: ExtractedEvidenceField[] = [];
 
-  // Normalise whitespace — PDFs often have excessive spaces/newlines
-  const normalised = text
-    .replace(/\r\n/g, "\n")
-    .replace(/\r/g, "\n")
+  // Normalise whitespace — PDFs often have excessive spaces/newlines.
+  // rejoinWrappedLines first stitches words the PDF text layer broke across
+  // lines ("Refer\nence" → "Reference") so line-anchored patterns can match.
+  const normalised = rejoinWrappedLines(text)
     .replace(/[ \t]{2,}/g, " ")
     .trim();
 
@@ -299,14 +364,18 @@ export function parseFieldsFromText(
     confidence: docType !== "Document" ? "high" : "medium",
   });
 
-  // Date
+  // Date — high only when the value actually looks like a date
   const dateVal = kv("document_date", "document date", "date", "dated", "issue_date", "issue date") ||
     firstMatch(normalised, DATE_PATTERNS);
   fields.push({
     key: "document_date",
     label: "Document date",
     value: dateVal || "Unable to extract — please enter manually",
-    confidence: score(dateVal),
+    confidence: !dateVal
+      ? "low"
+      : DATE_PATTERNS.some((re) => re.test(dateVal))
+      ? "high"
+      : "medium",
   });
 
   // Issuing organisation
@@ -363,7 +432,7 @@ export function parseFieldsFromText(
       key: "reference_number",
       label: "Reference number",
       value: refVal,
-      confidence: "high",
+      confidence: refConfidence(refVal),
     });
   }
 
@@ -376,7 +445,7 @@ export function parseFieldsFromText(
       key: "amount",
       label: "Amount (£)",
       value: amountVal.startsWith("£") ? amountVal : `£${amountVal}`,
-      confidence: "high",
+      confidence: moneyConfidence(amountVal),
     });
   }
 
@@ -398,7 +467,7 @@ export function parseFieldsFromText(
       key: "total",
       label: "Total (inc. VAT)",
       value: totalVal.startsWith("£") ? totalVal : `£${totalVal}`,
-      confidence: "high",
+      confidence: moneyConfidence(totalVal),
     });
   }
 
@@ -428,6 +497,29 @@ export function parseFieldsFromText(
     });
   }
 
-  console.log(`[parseFields] Extracted ${fields.length} fields:`, fields.map(f => `${f.key}=${f.value.substring(0, 30)}`));
+  // Diagnosis & recommendations — only for diagnostic / assessment documents
+  if (/diagnostic|assessment|medical/i.test(docType)) {
+    const diag = extractDiagnosis(normalised);
+    if (diag.value) {
+      fields.push({
+        key: "diagnosis",
+        label: "Diagnosis / condition",
+        value: diag.value,
+        confidence: diag.explicit ? "high" : "medium",
+      });
+    }
+
+    const recommendations = extractRecommendations(normalised);
+    if (recommendations) {
+      fields.push({
+        key: "recommendations",
+        label: "Recommendations",
+        value: recommendations,
+        confidence: "medium",
+      });
+    }
+  }
+
+  console.log(`[parseFields] Extracted ${fields.length} fields`);
   return fields;
 }

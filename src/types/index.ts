@@ -139,6 +139,7 @@ export interface ExtractedEvidenceField {
   label: string;        // human label, e.g. "Document date"
   value: string;        // extracted (or corrected) value
   confidence: "high" | "medium" | "low";
+  pii?: boolean;        // true when the field is defined in data/pii-fields.json
 }
 
 export interface EvidenceSubmission {

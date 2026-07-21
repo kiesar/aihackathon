@@ -4,6 +4,7 @@ import {
   extractTextFromImage,
   parseFieldsFromText,
 } from "@/lib/ocr-extract";
+import { extractPiiFields } from "@/lib/pii-extract";
 
 /**
  * Real-time evidence extraction endpoint.
@@ -79,8 +80,27 @@ export async function POST(request: NextRequest) {
     // fall through to placeholder fields with low confidence.
 
     const fields = parseFieldsFromText(rawText, fileName, description);
-    console.log(`[Extract] Parsed ${fields.length} fields from text`);
-    console.log(`[Extract] Fields:`, JSON.stringify(fields, null, 2));
+
+    // Configurable PII fields (defined in data/pii-fields.json)
+    const piiFields = extractPiiFields(rawText);
+    const existingKeys = new Set(fields.map((f) => f.key));
+    for (const p of piiFields) {
+      if (!existingKeys.has(p.key)) fields.push(p);
+    }
+
+    // For assessment reports the issuing organisation is the assessment
+    // centre, not the university the "provider" keyword tends to match.
+    const docTypeField = fields.find((f) => f.key === "document_type");
+    const centre = piiFields.find((f) => f.key === "assessment_centre_name");
+    if (centre && docTypeField && /diagnostic|assessment/i.test(docTypeField.value)) {
+      const issuing = fields.find((f) => f.key === "issuing_body");
+      if (issuing) {
+        issuing.value = centre.value;
+        issuing.confidence = centre.confidence;
+      }
+    }
+
+    console.log(`[Extract] Parsed ${fields.length} fields (${piiFields.length} PII)`);
 
     return NextResponse.json({
       fields,
